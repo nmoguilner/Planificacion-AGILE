@@ -5,7 +5,7 @@
 
 
 % El títulos de la memoria, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \ttitle
-\titulo{Título del proyecto} 
+\titulo{Sistema inteligente de optimización de compras de supermercado con pronóstico de precios y detección de ofertas engañosas} 
 
 % Nombre del posgrado, se usa en la carátula y se puede usar el cualquier lugar del documento con el comando \degreename
 %\posgrado{Carrera de Especialización en Sistemas Embebidos} 
@@ -16,21 +16,21 @@
 
 % Tu nombre, se puede usar el cualquier lugar del documento con el comando \authorname
 % IMPORTANTE: no omitir titulaciones ni tildación en los nombres, también se recomienda escribir los nombres completos (tal cual los tienen en su documento)
-\autor{Título y Nombre del autor}
+\autor{Ing. Nicolás Francisco Moguilner Reh}
 
 % El nombre del director y co-director, se puede usar el cualquier lugar del documento con el comando \supname y \cosupname y \pertesupname y \pertecosupname
-\director{Título y Nombre del director}
-\pertenenciaDirector{pertenencia} 
+\director{Dr. Ing. Facundo Adrián Lucianna}
+\pertenenciaDirector{FIUBA} 
 \codirector{} % para que aparezca en la portada se debe descomentar la opción codirector en los parámetros de documentclass
 \pertenenciaCoDirector{FIUBA}
 
 % Nombre del cliente, quien va a aprobar los resultados del proyecto, se puede usar con el comando \clientename y \empclientename
-\cliente{Nombre del cliente}
-\empresaCliente{Empresa del cliente}
+\cliente{Dr. Ing. Facundo Adrián Lucianna}
+\empresaCliente{FIUBA}
  
-\fechaINICIO{30 de abril de 2023}		%Fecha de inicio de la cursada de GdP \fechaInicioName
-\fechaFINALPlan{18 de junio de 2023} 	%Fecha de final de cursada de GdP
-\fechaFINALTrabajo{15 de mayo de 2024}	%Fecha de defensa pública del trabajo final
+\fechaINICIO{19 de octubre de 2026}		%Fecha de inicio de la cursada de GdP \fechaInicioName
+\fechaFINALPlan{14 de diciembre de 2026} 	%Fecha de final de cursada de GdP
+\fechaFINALTrabajo{16 de agosto de 2027}	%Fecha de defensa pública del trabajo final
 
 
 \begin{document}
@@ -59,7 +59,7 @@
 \rowcolor[HTML]{C0C0C0} 
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 0      & Creación del documento                                 &\fechaInicioName \\ \hline
-%1      & Se completa hasta el punto 5 inclusive                & {día} de {mes} de 202X \\ \hline
+1      & Se completa hasta el punto 5 inclusive                & 30 de octubre de 2026 \\ \hline
 %2      & Se completa hasta el punto 9 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
@@ -85,7 +85,7 @@ Buenos Aires, \fechaInicioName
 
 \vspace{2cm}
 
-Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en \textcolor{red}{la implementación de un prototipo de un sistema de control de temperatura de una caldera industrial}. El trabajo tendrá un presupuesto preliminar estimado de \textcolor{red}{600} horas y un costo estimado de \textcolor{red}{\$ XXX}, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
+Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo y la evaluación de un prototipo de sistema basado en aprendizaje automático que, a partir de los datos abiertos de precios de supermercados de Argentina (SEPA), recomiende dónde, cuándo y con qué medio de pago realizar una compra para pagar lo mínimo, y que detecte ofertas engañosas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y sin costos directos previstos a priori, salvo eventuales gastos asociados a servicios en la nube, \textit{hosting}, \textit{marketplaces} u otros servicios de terceros, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -106,144 +106,135 @@ Se adjunta a esta acta la planificación inicial.
 \section{1. Descripción técnica-conceptual del proyecto a realizar}
 \label{sec:descripcion}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-El objetivo es que el lector, en una o dos páginas, exponga de qué se trata el proyecto y cuáles son sus desafíos, cuál es la motivación para realizarlo y su importancia.
+El presente trabajo es un emprendimiento personal del autor, desarrollado en el marco del Trabajo Final de la \degreename. No cuenta con financiamiento de programas públicos ni privados y no está sujeto a acuerdos de confidencialidad. Los datos principales son abiertos (licencia CC BY 4.0) y la propiedad intelectual de los entregables corresponde al autor.
 
-Se debe introducir el contexto del proyecto, el estado del arte en la temática, describir la propuesta de valor, cuál es el problema que atiende y cuál es la solución que se propone. Se debe dar una descripción funcional de la solución que incluya un diagrama en bloques.
+\textbf{El problema.} Una persona tiene su lista de compras y quiere saber dónde, cuándo y con qué medio de pago le conviene comprarla. La decisión no es trivial: en Argentina los precios se remarcan cada pocas semanas; cada cadena, banco y billetera virtual ofrece descuentos con días, porcentajes, segmentos (por ejemplo, jubilados), exclusiones y topes distintos; un mismo producto puede encontrarse en otra marca o presentación; y en fechas como CyberMonday o Black Friday es habitual que un precio suba antes de la promoción para luego ``bajar''. Por ejemplo, en un ticket real de Coto (La Plata, 16/11/2024) una compra de \$\,33.372 abonada con un descuento anunciado del 15\,\% ``sin tope'' de Mercado Pago obtuvo una rebaja de \$\,1.173, es decir, un 3,5\,\% efectivo, debido a las exclusiones de productos.
 
-Puede ser útil incluir en esta sección la respuesta a alguna de estas preguntas:
+\textbf{Estado del arte.} Desde 2016 las cadenas de supermercados más grandes están obligadas a informar a diario sus precios por sucursal al Sistema Electrónico de Publicidad de Precios Argentinos (SEPA). Actualmente se publican los precios de alrededor de 3.100 sucursales de 17 empresas en 24 jurisdicciones, con código de barras, precio por unidad de medida y hasta dos promociones por producto. El portal oficial solo conserva los últimos siete días. Sobre estos datos existen comparadores como preciazo, ratoneando, SEPAME y Yoper, que muestran el precio del día, pero no pronostican precios, no consideran el medio de pago del usuario, no detectan descuentos engañosos y no evalúan la conveniencia de un precio en el tiempo. En la Unión Europea, la Directiva Ómnibus establece que el precio de referencia de un descuento debe ser el mínimo de los 30 días previos, criterio que se toma como referencia para detectar ofertas engañosas. Entre los trabajos finales de la CEIA presentados hasta junio de 2026 no se encontraron trabajos que aborden precios de supermercado, ofertas engañosas ni medios de pago.
 
-\begin{itemize}
-	\item ¿Cuál es el contexto del proyecto, es un emprendimiento personal, un proyecto para una empresa, es parte del programa de vinculación con empresas del posgrado?
-	\item ¿Existen o aplican condiciones especiales al proyecto, financiamiento de algún programa público o privado, acuerdos de confidencialidad, acuerdos sobre la propiedad intelectual de los entregables u otros?
-	\item ¿Cómo se compara la solución propuesta con el estado del arte en el campo de aplicación? ¿En qué aspectos destaca?
-	\item ¿Ayuda a la explicación si se incluye un lienzo Canvas del Modelo de Negocio?
-	\item ¿En qué estado del ciclo de vida está la solución que se propone?
-	\item ¿Cuáles son las características del cliente (el adoptante de los entregables del proyecto) qué valora, qué necesita?
-	\item ¿Por dónde pasa la innovación?
-\end{itemize}
+\textbf{La solución propuesta.} Se propone un sistema que, dada una lista de compras y el perfil de medios de pago del usuario, recomiende la sucursal, el día y el medio de pago que minimizan el costo esperado, y que alerte sobre ofertas engañosas. La propuesta de valor es un ahorro medible en pesos frente a la forma habitual de comprar (un mismo supermercado, el día de siempre y cualquier medio de pago). Además, a sugerencia de la coordinación académica, el usuario podrá consultar si un precio visto fuera de las cadenas principales (por ejemplo, en un almacén) es conveniente frente a los datos disponibles.
 
-La descripción técnica-conceptual \textbf{debe incluir al menos un diagrama en bloques del sistema} y descripción funcional de la solución propuesta.
-
-Las figuras se deben mencionar en el texto ANTES de que aparezcan con una frase como la siguiente: ``En la figura \ref{fig:diagBloques} se presenta el diagrama en bloques del sistema. Se observa que...''.  La regla es que las figuras nunca pueden ir antes de ser mencionadas en el texto, porque sino el lector no entiende por qué de pronto aparece una figura.
+En la figura \ref{fig:diagBloquesProyecto} se presenta el diagrama en bloques del sistema. Se observa que las fuentes de datos alimentan un módulo de ingesta, cuya salida se unifica a nivel de producto y luego se utiliza en los modelos de pronóstico y de detección de ofertas engañosas, que a su vez alimentan al optimizador. Los bloques en gris con borde punteado corresponden a funcionalidades opcionales, fuera del alcance base, que se incorporarán solo si el cronograma lo permite (ver sección \ref{sec:alcance}).
 
 \begin{figure}[htpb]
-\centering 
-\includegraphics[width=.65\textwidth]{./Figuras/diagBloques.png}
-\caption{Diagrama en bloques del sistema.}
-\label{fig:diagBloques}
+\centering
+\includegraphics[width=\textwidth]{./Figuras/diagBloques-proyecto.png}
+\caption{Diagrama en bloques del sistema propuesto.}
+\label{fig:diagBloquesProyecto}
 \end{figure}
 
-\vspace{25px}
+La descripción funcional de cada bloque es la siguiente:
 
-El tamaño del texto en TODAS las figuras debe ser adecuado \textbf{para que NO pase lo que ocurre en la figura \ref{fig:diagBloques}}, donde el lector debe esforzarse para poder leer el texto. 
+\begin{itemize}
+	\item \textbf{Fuentes de datos:} archivos diarios de SEPA descargados de forma automática (en una máquina virtual en la nube, para no depender de la computadora personal), el histórico de precios de preciazo desde septiembre de 2024, las promociones bancarias y de billeteras cargadas manualmente (se publican en forma mensual) y un conjunto acotado de variables de contexto.
+	\item \textbf{1. Ingesta, validación y almacenamiento:} limpieza, tratamiento de faltantes y detección de anomalías (por ejemplo, con Isolation Forest). Los datos se guardan en archivos Parquet y en una base PostgreSQL.
+	\item \textbf{2. Unificación de productos:} identifica productos idénticos (por código EAN), del mismo elaborador (marcas propias, mediante el RNPA) y equivalentes (mediante \textit{embeddings} de Sentence-BERT y un clasificador de pares). La comparación se realiza siempre por kilogramo, litro o unidad.
+	\item \textbf{3. Pronóstico de precios y remarcación:} estima cuándo y cuánto cambiará el precio de cada producto en cada sucursal, con intervalos de confianza.
+	\item \textbf{4. Detección de ofertas engañosas (versión acotada):} identifica inflado previo del precio, precios anteriores inexistentes y descuentos menores a los anunciados.
+	\item \textbf{5. Optimizador:} mediante programación entera mixta elige sucursal, día y medio de pago con menor costo esperado, respetando las promociones habilitadas por el perfil del usuario y sus topes.
+	\item \textbf{6. API y aplicación web de demostración:} recibe la lista de compras, el perfil de medios de pago y las consultas de precios externos, y devuelve el plan de compra, el ahorro estimado, las alertas y el veredicto sobre precios externos (``conveniente'', ``similar'' o ``caro'').
+\end{itemize}
 
-Los colores usados en el diagrama deben ser adecuados, tal que ayuden a comprender mejor el diagrama. Se recomienda evitar colores primarios (como rojo, verde o cyan) y usar la gama de colores pastel.
+\textbf{Ciclo de vida y cliente.} La solución se encuentra en etapa de concepto validado: se verificó la viabilidad técnica con archivos diarios de SEPA y se cuenta con el histórico necesario. El resultado del proyecto será un prototipo funcional evaluado, no un producto en producción. El adoptante de los entregables es el consumidor de supermercado sensible al precio, que dispone de varios medios de pago y valora un ahorro concreto, recomendaciones simples de seguir y poder confiar en que una oferta es real. El trabajo se centra en las cuatro cadenas principales de la ciudad de Paraná (Entre Ríos), que se toma como caso de uso real.
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+\textbf{Innovación.} La innovación pasa por integrar, sobre datos abiertos de Argentina, el pronóstico de precios, la detección de ofertas engañosas y la optimización bajo incertidumbre considerando el perfil de medios de pago del usuario, y por evaluar el sistema por el ahorro real en pesos que produce.
 
 \section{2. Identificación y análisis de los interesados}
 \label{sec:interesados}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-\textbf{Nota importante:} borrar esto y todas las consignas en color rojo antes de entregar este documento). Esto se hace eliminando el par de comandos que forman el bloque consigna, \verb!\begin{consigna}{red}! y \verb!\end{consigna}{red}! del código. 
- 
-Es inusual que una misma persona esté en más de un rol, incluso en proyectos chicos. Si se considera que una persona cumple dos o más roles, entonces \textbf{solo dejarla en el rol más importante}. 
-
-Por ejemplo, si una persona es Cliente pero también colabora u orienta, dejarla solo como Cliente. Si una persona es el Responsable, \textbf{no debe ser colocado también como miembro del equipo}.
-
-
 \begin{table}[ht]
-%\caption{Identificación de los interesados}
-%\label{tab:interesados}
-\begin{tabularx}{\linewidth}{@{}|l|X|X|l|@{}}
+\caption{Identificación de los interesados.}
+\label{tab:interesadosProyecto}
+\begin{tabularx}{\linewidth}{@{}|l|X|X|X|@{}}
 \hline
 \rowcolor[HTML]{C0C0C0} 
 Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
-Auspiciante   &                   &              	&        	\\ \hline
-Cliente       & \clientename      &\empclientename	&        	\\ \hline
-Impulsor      &                   &              	&        	\\ \hline
+Cliente       & \clientename      &\empclientename	& Director del Trabajo Final \\ \hline
+Impulsor      & Federico G. Zacchigna & FIUBA        & Coordinación académica de IA \\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
-Colaboradores &                   &              	&        	\\ \hline
-Orientador    & \supname	      & \pertesupname 	& Director del Trabajo Final \\ \hline
-Equipo        & miembro1 \newline 
-				miembro2          &              	&        	\\ \hline
-Opositores    &                   &              	&        	\\ \hline
-Usuario final &                   &              	&        	\\ \hline
+Opositores    & -                 & Cadenas de supermercados alcanzadas & - \\ \hline
+Usuario final & Consumidores de supermercados & - & - \\ \hline
 \end{tabularx}
 \end{table}
 
-El Director suele ser uno de los orientadores.
-
-No dejar celdas vacías; si no hay nada que poner en una celda colocar un signo ``-''.
-
-No dejar filas vacías; si no hay nada que poner en una fila entonces eliminarla.
-
-Es deseable listar a continuación las principales características de cada interesado.
- 
-Por ejemplo:
 \begin{itemize}
-	\item Orientador: la Dra. Ing. María Gómez es experta en la temática y va a ayudar con la definición de los requerimientos y el desarrollo del firmware del embebido.
-	\item Auspiciante: es riguroso y exigente con la rendición de gastos. Tener mucho cuidado con esto.
-	\item Equipo: Juan Perez, suele pedir licencia porque tiene un familiar con una enfermedad. Planificar considerando esto.
+	\item Cliente: el \clientename\hspace{1px} es docente de la CEIA en las asignaturas de Introducción a la Inteligencia Artificial, Aprendizaje de Máquina y Operaciones de Aprendizaje Automático. Valida el plan de trabajo y orienta en las decisiones de modelado y de despliegue. Acordó recibir un correo mensual con el estado de avance y responder consultas puntuales.
+	\item Impulsor: Federico G. Zacchigna aprobó la propuesta de trabajo y sugirió incorporar la consulta de precios ofrecidos fuera de las cadenas principales.
+	\item Responsable: el autor trabaja como ingeniero de software y desarrolla el proyecto en forma individual, por lo que la disponibilidad horaria debe compatibilizarse con su actividad laboral y con la cursada.
+	\item Opositores: las cadenas de supermercados podrían objetar la publicación de análisis sobre ofertas engañosas. Se utilizan únicamente datos que las propias cadenas informan al SEPA y criterios explícitos y reproducibles.
+	\item Usuario final: personas que compran en supermercados y disponen de distintos medios de pago. Para las pruebas se toma como caso de uso real la ciudad de Paraná.
 \end{itemize}
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
 
 \section{3. Propósito del proyecto}
 \label{sec:proposito}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-
-¿Por qué se hace el proyecto? ¿Qué se quiere lograr? 
-
-Se recomienda que sea solo un párrafo que continúe con la idea de la frase ``el propósito de este proyecto es...'' (omitir la frase, ya que está en el título de la sección).
-\end{consigna}
+El propósito de este proyecto es ayudar a los consumidores a pagar menos por su compra de supermercado, recomendándoles dónde, cuándo y con qué medio de pago comprar, y protegiéndolos de ofertas engañosas. Para ello se busca desarrollar y evaluar un sistema basado en aprendizaje automático que aproveche los datos abiertos de precios de Argentina y cuyo valor pueda medirse como ahorro en pesos frente a la forma habitual de comprar.
 
 \section{4. Alcance del proyecto}
 \label{sec:alcance}
 
-\begin{consigna}{red}
-¿Qué se incluye y que no se incluye en este proyecto?
-
-Se refiere al trabajo que se va a hacer para entregar el producto o resultado especificado. 
-
-Explicitar todo lo quede comprendido dentro del alcance del proyecto. Por ejemplo:
+El alcance se ajustó respecto de la propuesta aprobada por la coordinación académica, por recomendación del director, para concentrarse en un núcleo que pueda completarse y evaluarse adecuadamente en 600 horas. Las funcionalidades que quedan fuera del núcleo se listan más abajo como opcionales y, si no llegan a abordarse, quedarán como trabajo futuro.
 
 El proyecto incluye:
+
 \begin{itemize}
-	\item Ítem 1.
-	\item Ítem 2.
+	\item Descarga diaria automatizada de los archivos de SEPA y su almacenamiento histórico, junto con la incorporación del histórico de preciazo.
+	\item Ingesta, limpieza y validación de los datos, con detección de anomalías.
+	\item Las sucursales de las cuatro cadenas principales de Paraná: Coto, Carrefour, ChangoMás (incluido HiperChangoMás) y DIA. El \textit{pipeline} se diseñará de forma genérica para facilitar la incorporación posterior de otras sucursales o cadenas.
+	\item Unificación de productos con código de barras:
 		\begin{itemize}
-		\item Subítem 1.
-		\item Subítem 2.
-		\item ...
+		\item Productos idénticos por código EAN.
+		\item Productos del mismo elaborador (marcas propias) mediante el RNPA.
+		\item Productos equivalentes mediante Sentence-BERT y un clasificador de pares.
+		\item Normalización del precio por kilogramo, litro o unidad.
 		\end{itemize}
-	\item ...
-	
+	\item Carga manual estructurada, con frecuencia mensual, de las promociones de las billeteras virtuales y los bancos con más promociones en esas cadenas, y de descuentos generales como los destinados a jubilados.
+	\item Modelos de pronóstico de precios y de remarcación con intervalos de confianza, comparados contra modelos de referencia (\textit{baselines}), usando un conjunto acotado de variables de contexto.
+	\item Una versión acotada de la detección de ofertas engañosas, basada en criterios explícitos (inflado previo del precio, precio anterior inexistente y descuento menor al anunciado).
+	\item Optimizador que recomiende sucursal, día y medio de pago para una lista de compras y un perfil de medios de pago.
+	\item Consulta de conveniencia de un precio ofrecido fuera de las cadenas principales (por ejemplo, en un almacén), frente a los datos disponibles.
+	\item API y aplicación web simple de demostración.
+	\item Evaluación del sistema mediante \textit{backtest} sobre compras simuladas, con partición temporal (entrenamiento de septiembre de 2024 a marzo de 2026 y prueba de julio a septiembre de 2026), con el ahorro en pesos frente a una estrategia ingenua como métrica central y métricas específicas por módulo.
+	\item Documentación del código, memoria del trabajo final y defensa pública.
 \end{itemize}
 
-Explicitar además todo lo que no quede incluido (``El presente proyecto no incluye...'')
+Funcionalidades opcionales, que se incorporarán solo si el cronograma lo permite, en orden de menor a mayor complejidad:
 
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
+\begin{itemize}
+	\item Incorporación de otras sucursales o cadenas, además de las cuatro mencionadas en Paraná.
+	\item Incorporación de más variables macroeconómicas externas a los modelos de pronóstico.
+	\item Interfaz en lenguaje natural basada en un modelo de lenguaje.
+	\item \textit{Crawlers} para automatizar la carga de promociones bancarias y de billeteras.
+	\item Caso de estudio de ofertas engañosas en electrodomésticos vendidos por las mismas cadenas en CyberMonday y Black Friday.
+	\item Recomendación de productos sustitutos y predicción de la próxima compra.
+	\item Cálculo de la distancia del usuario a cada sucursal para considerar el costo de traslado.
+	\item Lectura y verificación de tickets de compra fotografiados, incluida la construcción del dataset correspondiente.
+\end{itemize}
 
+El presente proyecto no incluye:
+
+\begin{itemize}
+	\item La puesta en producción de la aplicación ni su publicación para usuarios externos.
+	\item Productos sin código de barras (frescos) ni fotografías de góndolas o carteles de precios.
+	\item Cadenas o comercios que no informan al SEPA, salvo como precio externo consultado por el usuario.
+	\item Comercios de electrodomésticos o plataformas de comercio electrónico ajenas a las cadenas alcanzadas.
+\end{itemize}
 
 \section{5. Supuestos del proyecto}
 \label{sec:supuestos}
 
-\begin{consigna}{red} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
-``Para el desarrollo del presente proyecto se supone que: ...''
+Para el desarrollo del presente proyecto se supone que:
 
 \begin{itemize}
-	\item Supuesto 1.
-	\item Supuesto 2.
-	\item ...
+	\item El SEPA continuará publicando a diario los precios de las cadenas alcanzadas, con un formato similar al actual, y la normativa que obliga a las cadenas a informarlos seguirá vigente.
+	\item La descarga diaria automatizada funcionará sin interrupciones prolongadas y, ante fallas puntuales, el histórico de preciazo permitirá completar los faltantes.
+	\item Los precios informados al SEPA representan con razonable fidelidad los precios en góndola de las sucursales.
+	\item Las promociones bancarias y de billeteras seguirán publicándose en forma mensual y podrán cargarse manualmente en un tiempo acotado, sin necesidad de \textit{crawlers}.
+	\item El autor dispondrá de aproximadamente 600 horas de trabajo entre octubre de 2026 y agosto de 2027, compatibles con su actividad laboral y con la cursada.
+	\item Serán suficientes los recursos de cómputo disponibles: una computadora personal y una máquina virtual de la capa gratuita de Oracle Cloud, junto con herramientas y modelos preentrenados de código abierto.
+	\item El director del trabajo estará disponible para responder consultas y recibir los informes mensuales de avance.
+	\item El contexto macroeconómico mantendrá la variabilidad de precios y la diversidad de promociones que hacen relevante el problema; en caso de cambios significativos, la metodología seguirá siendo aplicable.
 \end{itemize}
-
-Por ejemplo, se podrían incluir supuestos respecto a disponibilidad de tiempo y recursos humanos y materiales, sobre la factibilidad técnica de distintos aspectos del proyecto, sobre otras cuestiones que sean necesarias para el éxito del proyecto como condiciones macroeconómicas o reglamentarias.
-
-\end{consigna} % ELIMINAR \begin{consigna}{red} y \end{consigna}{red} en las secciones que vayan completando para cada entrega parcial.
 
 \section{6. Product Backlog}
 \label{sec:backlog}
