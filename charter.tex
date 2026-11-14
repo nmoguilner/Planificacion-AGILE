@@ -60,6 +60,8 @@
 Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios realizados} & Fecha      \\ \hline
 0      & Creación del documento                                 &\fechaInicioName \\ \hline
 1      & Se completa hasta el punto 5 inclusive                & 30 de octubre de 2026 \\ \hline
+2      & Se incorporan las correcciones de la revisión 1 \newline
+		  Se completa hasta el punto 9 inclusive                & 8 de noviembre de 2026 \\ \hline
 %2      & Se completa hasta el punto 9 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
@@ -85,7 +87,7 @@ Buenos Aires, \fechaInicioName
 
 \vspace{2cm}
 
-Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo y la evaluación de un prototipo de sistema basado en aprendizaje automático que, a partir de los datos abiertos de precios de supermercados de Argentina (SEPA), recomiende dónde, cuándo y con qué medio de pago realizar una compra para pagar lo mínimo, y que detecte ofertas engañosas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas y sin costos directos previstos a priori, salvo eventuales gastos asociados a servicios en la nube, \textit{hosting}, \textit{marketplaces} u otros servicios de terceros, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública el \fechaFinalName.
+Por medio de la presente se acuerda con el \authorname\hspace{1px} que su Trabajo Final de la \degreename\hspace{1px} se titulará ``\ttitle'' y consistirá en el desarrollo y la evaluación de un prototipo de sistema basado en aprendizaje automático que, a partir de los datos abiertos de precios de supermercados de Argentina (SEPA), recomiende dónde, cuándo y con qué medio de pago realizar una compra para pagar lo mínimo, y que detecte ofertas engañosas. El trabajo tendrá un presupuesto preliminar estimado de 600 horas de trabajo, que, valorizadas a modo de referencia a USD\,20 por hora, equivalen a un costo estimado de USD\,12.000. A esto se suman aproximadamente USD\,600 en servicios en la nube (máquina virtual, base de datos, almacenamiento y dominio, estimados en USD\,60 por mes durante diez meses), lo que totaliza un costo estimado de USD\,12.600, con fecha de inicio el \fechaInicioName\hspace{1px} y fecha de presentación pública en el mes de agosto de 2027.
 
 Se adjunta a esta acta la planificación inicial.
 
@@ -108,15 +110,21 @@ Se adjunta a esta acta la planificación inicial.
 
 El presente trabajo es un emprendimiento personal del autor, desarrollado en el marco del Trabajo Final de la \degreename. No cuenta con financiamiento de programas públicos ni privados y no está sujeto a acuerdos de confidencialidad. Los datos principales son abiertos (licencia CC BY 4.0) y la propiedad intelectual de los entregables corresponde al autor.
 
-\textbf{El problema.} Una persona tiene su lista de compras y quiere saber dónde, cuándo y con qué medio de pago le conviene comprarla. La decisión no es trivial: en Argentina los precios se remarcan cada pocas semanas; cada cadena, banco y billetera virtual ofrece descuentos con días, porcentajes, segmentos (por ejemplo, jubilados), exclusiones y topes distintos; un mismo producto puede encontrarse en otra marca o presentación; y en fechas como CyberMonday o Black Friday es habitual que un precio suba antes de la promoción para luego ``bajar''. Por ejemplo, en un ticket real de Coto (La Plata, 16/11/2024) una compra de \$\,33.372 abonada con un descuento anunciado del 15\,\% ``sin tope'' de Mercado Pago obtuvo una rebaja de \$\,1.173, es decir, un 3,5\,\% efectivo, debido a las exclusiones de productos.
+\subsection{El problema}
 
-\textbf{Estado del arte.} Desde 2016 las cadenas de supermercados más grandes están obligadas a informar a diario sus precios por sucursal al Sistema Electrónico de Publicidad de Precios Argentinos (SEPA). Actualmente se publican los precios de alrededor de 3.100 sucursales de 17 empresas en 24 jurisdicciones, con código de barras, precio por unidad de medida y hasta dos promociones por producto. El portal oficial solo conserva los últimos siete días. Sobre estos datos existen comparadores como preciazo, ratoneando, SEPAME y Yoper, que muestran el precio del día, pero no pronostican precios, no consideran el medio de pago del usuario, no detectan descuentos engañosos y no evalúan la conveniencia de un precio en el tiempo. En la Unión Europea, la Directiva Ómnibus establece que el precio de referencia de un descuento debe ser el mínimo de los 30 días previos, criterio que se toma como referencia para detectar ofertas engañosas. Entre los trabajos finales de la CEIA presentados hasta junio de 2026 no se encontraron trabajos que aborden precios de supermercado, ofertas engañosas ni medios de pago.
+Una persona tiene su lista de compras y quiere saber dónde, cuándo y con qué medio de pago le conviene comprarla. La decisión no es trivial: en Argentina los precios se remarcan cada pocas semanas; cada cadena, banco y billetera virtual ofrece descuentos con días, porcentajes, segmentos (por ejemplo, jubilados), exclusiones y topes distintos; un mismo producto puede encontrarse en otra marca o presentación; y en fechas como CyberMonday o Black Friday es habitual que un precio suba antes de la promoción para luego ``bajar''. Por ejemplo, en un ticket real de Coto (La Plata, 16/11/2024) una compra de \$\,33.372 abonada con un descuento anunciado del 15\,\% ``sin tope'' de Mercado Pago obtuvo una rebaja de \$\,1.173, es decir, un 3,5\,\% efectivo, debido a las exclusiones de productos.
 
-\textbf{La solución propuesta.} Se propone un sistema que, dada una lista de compras y el perfil de medios de pago del usuario, recomiende la sucursal, el día y el medio de pago que minimizan el costo esperado, y que alerte sobre ofertas engañosas. La propuesta de valor es un ahorro medible en pesos frente a la forma habitual de comprar (un mismo supermercado, el día de siempre y cualquier medio de pago). Además, a sugerencia de la coordinación académica, el usuario podrá consultar si un precio visto fuera de las cadenas principales (por ejemplo, en un almacén) es conveniente frente a los datos disponibles.
+\subsection{Estado del arte}
+
+Desde 2016 las cadenas de supermercados más grandes están obligadas a informar a diario sus precios por sucursal al Sistema Electrónico de Publicidad de Precios Argentinos (SEPA). Actualmente se publican los precios de alrededor de 3.100 sucursales de 17 empresas en 24 jurisdicciones, con código de barras, precio por unidad de medida y hasta dos promociones por producto. El portal oficial solo conserva los últimos siete días. Sobre estos datos existen comparadores como preciazo, ratoneando, SEPAME y Yoper, que muestran el precio del día, pero no pronostican precios, no consideran el medio de pago del usuario, no detectan descuentos engañosos y no evalúan la conveniencia de un precio en el tiempo. En la Unión Europea, la Directiva Ómnibus establece que el precio de referencia de un descuento debe ser el mínimo de los 30 días previos, criterio que se toma como referencia para detectar ofertas engañosas. Entre los trabajos finales de la CEIA presentados hasta junio de 2026 no se encontraron trabajos que aborden precios de supermercado, ofertas engañosas ni medios de pago.
+
+\subsection{La solución propuesta}
+
+Se propone un sistema que, dada una lista de compras y el perfil de medios de pago del usuario, recomiende la sucursal, el día y el medio de pago que minimizan el costo esperado, y que alerte sobre ofertas engañosas. La propuesta de valor es un ahorro medible en pesos frente a la forma habitual de comprar (un mismo supermercado, el día de siempre y cualquier medio de pago). Además, a sugerencia de la coordinación académica, el usuario podrá consultar si un precio visto fuera de las cadenas principales (por ejemplo, en un almacén) es conveniente frente a los datos disponibles.
 
 En la figura \ref{fig:diagBloquesProyecto} se presenta el diagrama en bloques del sistema. Se observa que las fuentes de datos alimentan un módulo de ingesta, cuya salida se unifica a nivel de producto y luego se utiliza en los modelos de pronóstico y de detección de ofertas engañosas, que a su vez alimentan al optimizador. Los bloques en gris con borde punteado corresponden a funcionalidades opcionales, fuera del alcance base, que se incorporarán solo si el cronograma lo permite (ver sección \ref{sec:alcance}).
 
-\begin{figure}[htpb]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{./Figuras/diagBloques-proyecto.png}
 \caption{Diagrama en bloques del sistema propuesto.}
@@ -126,18 +134,22 @@ En la figura \ref{fig:diagBloquesProyecto} se presenta el diagrama en bloques de
 La descripción funcional de cada bloque es la siguiente:
 
 \begin{itemize}
-	\item \textbf{Fuentes de datos:} archivos diarios de SEPA descargados de forma automática (en una máquina virtual en la nube, para no depender de la computadora personal), el histórico de precios de preciazo desde septiembre de 2024, las promociones bancarias y de billeteras cargadas manualmente (se publican en forma mensual) y un conjunto acotado de variables de contexto.
-	\item \textbf{1. Ingesta, validación y almacenamiento:} limpieza, tratamiento de faltantes y detección de anomalías (por ejemplo, con Isolation Forest). Los datos se guardan en archivos Parquet y en una base PostgreSQL.
-	\item \textbf{2. Unificación de productos:} identifica productos idénticos (por código EAN), del mismo elaborador (marcas propias, mediante el RNPA) y equivalentes (mediante \textit{embeddings} de Sentence-BERT y un clasificador de pares). La comparación se realiza siempre por kilogramo, litro o unidad.
-	\item \textbf{3. Pronóstico de precios y remarcación:} estima cuándo y cuánto cambiará el precio de cada producto en cada sucursal, con intervalos de confianza.
-	\item \textbf{4. Detección de ofertas engañosas (versión acotada):} identifica inflado previo del precio, precios anteriores inexistentes y descuentos menores a los anunciados.
-	\item \textbf{5. Optimizador:} mediante programación entera mixta elige sucursal, día y medio de pago con menor costo esperado, respetando las promociones habilitadas por el perfil del usuario y sus topes.
-	\item \textbf{6. API y aplicación web de demostración:} recibe la lista de compras, el perfil de medios de pago y las consultas de precios externos, y devuelve el plan de compra, el ahorro estimado, las alertas y el veredicto sobre precios externos (``conveniente'', ``similar'' o ``caro'').
+	\item Fuentes de datos: archivos diarios de SEPA descargados de forma automática (en una máquina virtual en la nube, para no depender de la computadora personal), el histórico de precios de preciazo desde septiembre de 2024, las promociones bancarias y de billeteras cargadas manualmente (se publican en forma mensual) y un conjunto acotado de variables de contexto.
+	\item 1. Ingesta, validación y almacenamiento: limpieza, tratamiento de faltantes y detección de anomalías (por ejemplo, con Isolation Forest). Los datos se guardan en archivos Parquet y en una base PostgreSQL.
+	\item 2. Unificación de productos: identifica productos idénticos (por código EAN), del mismo elaborador (marcas propias, mediante el RNPA) y equivalentes (mediante \textit{embeddings} de Sentence-BERT y un clasificador de pares). La comparación se realiza siempre por kilogramo, litro o unidad.
+	\item 3. Pronóstico de precios y remarcación: estima cuándo y cuánto cambiará el precio de cada producto en cada sucursal, con intervalos de confianza.
+	\item 4. Detección de ofertas engañosas (versión acotada): identifica inflado previo del precio, precios anteriores inexistentes y descuentos menores a los anunciados.
+	\item 5. Optimizador: mediante programación entera mixta elige sucursal, día y medio de pago con menor costo esperado, respetando las promociones habilitadas por el perfil del usuario y sus topes.
+	\item 6. API y aplicación web de demostración: recibe la lista de compras, el perfil de medios de pago y las consultas de precios externos, y devuelve el plan de compra, el ahorro estimado, las alertas y el veredicto sobre precios externos (``conveniente'', ``similar'' o ``caro'').
 \end{itemize}
 
-\textbf{Ciclo de vida y cliente.} La solución se encuentra en etapa de concepto validado: se verificó la viabilidad técnica con archivos diarios de SEPA y se cuenta con el histórico necesario. El resultado del proyecto será un prototipo funcional evaluado, no un producto en producción. El adoptante de los entregables es el consumidor de supermercado sensible al precio, que dispone de varios medios de pago y valora un ahorro concreto, recomendaciones simples de seguir y poder confiar en que una oferta es real. El trabajo se centra en las cuatro cadenas principales de la ciudad de Paraná (Entre Ríos), que se toma como caso de uso real.
+\subsection{Ciclo de vida y cliente}
 
-\textbf{Innovación.} La innovación pasa por integrar, sobre datos abiertos de Argentina, el pronóstico de precios, la detección de ofertas engañosas y la optimización bajo incertidumbre considerando el perfil de medios de pago del usuario, y por evaluar el sistema por el ahorro real en pesos que produce.
+La solución se encuentra en etapa de concepto validado: se verificó la viabilidad técnica con archivos diarios de SEPA y se cuenta con el histórico necesario. El resultado del proyecto será un prototipo funcional evaluado, no un producto en producción. El adoptante de los entregables es el consumidor de supermercado sensible al precio, que dispone de varios medios de pago y valora un ahorro concreto, recomendaciones simples de seguir y poder confiar en que una oferta es real. El trabajo se centra en las cuatro cadenas principales de la ciudad de Paraná (Entre Ríos), que se toma como caso de uso real.
+
+\subsection{Innovación}
+
+La innovación pasa por integrar, sobre datos abiertos de Argentina, el pronóstico de precios, la detección de ofertas engañosas y la optimización bajo incertidumbre considerando el perfil de medios de pago del usuario, y por evaluar el sistema por el ahorro real en pesos que produce.
 
 \section{2. Identificación y análisis de los interesados}
 \label{sec:interesados}
@@ -152,15 +164,17 @@ Rol           & Nombre y Apellido & Organización 	& Puesto 	\\ \hline
 Cliente       & \clientename      &\empclientename	& Director del Trabajo Final \\ \hline
 Impulsor      & Federico G. Zacchigna & FIUBA        & Coordinación académica de IA \\ \hline
 Responsable   & \authorname       & FIUBA        	& Alumno 	\\ \hline
+Orientador    & \supname         & \pertesupname   & Director del Trabajo Final \\ \hline
 Opositores    & -                 & Cadenas de supermercados alcanzadas & - \\ \hline
 Usuario final & Consumidores de supermercados & - & - \\ \hline
 \end{tabularx}
 \end{table}
 
 \begin{itemize}
-	\item Cliente: el \clientename\hspace{1px} es docente de la CEIA en las asignaturas de Introducción a la Inteligencia Artificial, Aprendizaje de Máquina y Operaciones de Aprendizaje Automático. Valida el plan de trabajo y orienta en las decisiones de modelado y de despliegue. Acordó recibir un correo mensual con el estado de avance y responder consultas puntuales.
+	\item Cliente: el \clientename\hspace{1px} es docente de la CEIA en las asignaturas de Introducción a la Inteligencia Artificial, Aprendizaje de Máquina y Operaciones de Aprendizaje Automático. Como cliente, valida el plan de trabajo y aprueba los resultados del proyecto.
 	\item Impulsor: Federico G. Zacchigna aprobó la propuesta de trabajo y sugirió incorporar la consulta de precios ofrecidos fuera de las cadenas principales.
 	\item Responsable: el autor trabaja como ingeniero de software y desarrolla el proyecto en forma individual, por lo que la disponibilidad horaria debe compatibilizarse con su actividad laboral y con la cursada.
+	\item Orientador: el \supname, director del Trabajo Final, orienta al autor en las decisiones de modelado y de despliegue. Acordó recibir un correo mensual con el estado de avance y responder consultas puntuales.
 	\item Opositores: las cadenas de supermercados podrían objetar la publicación de análisis sobre ofertas engañosas. Se utilizan únicamente datos que las propias cadenas informan al SEPA y criterios explícitos y reproducibles.
 	\item Usuario final: personas que compran en supermercados y disponen de distintos medios de pago. Para las pruebas se toma como caso de uso real la ciudad de Paraná.
 \end{itemize}
@@ -231,7 +245,7 @@ Para el desarrollo del presente proyecto se supone que:
 	\item Los precios informados al SEPA representan con razonable fidelidad los precios en góndola de las sucursales.
 	\item Las promociones bancarias y de billeteras seguirán publicándose en forma mensual y podrán cargarse manualmente en un tiempo acotado, sin necesidad de \textit{crawlers}.
 	\item El autor dispondrá de aproximadamente 600 horas de trabajo entre octubre de 2026 y agosto de 2027, compatibles con su actividad laboral y con la cursada.
-	\item Serán suficientes los recursos de cómputo disponibles: una computadora personal y una máquina virtual de la capa gratuita de Oracle Cloud, junto con herramientas y modelos preentrenados de código abierto.
+	\item Serán suficientes los recursos de cómputo disponibles: una computadora personal y servicios en la nube de bajo costo o de capa gratuita (una máquina virtual y almacenamiento de objetos, por ejemplo en AWS, GCP u otro proveedor, o bien un almacenamiento compatible con S3 como MinIO), junto con herramientas y modelos preentrenados de código abierto.
 	\item El director del trabajo estará disponible para responder consultas y recibir los informes mensuales de avance.
 	\item El contexto macroeconómico mantendrá la variabilidad de precios y la diversidad de promociones que hacen relevante el problema; en caso de cambios significativos, la metodología seguirá siendo aplicable.
 \end{itemize}
@@ -239,150 +253,266 @@ Para el desarrollo del presente proyecto se supone que:
 \section{6. Product Backlog}
 \label{sec:backlog}
 
-El Product Backlog debe organizarse en cuatro \textbf{\textit{\'{e}picas}} fundamentales del proyecto. Cada \'{e}pica debe contener al menos dos historias de usuario que describan funcionalidades clave.
+Para ponderar las historias de usuario se utilizan \textit{Story Points} (SP) en escala de Fibonacci (1, 2, 3, 5, 8, 13, 21, 34 y 55). El valor de cada historia combina tres factores: la complejidad técnica, la incertidumbre (cuánto se desconoce sobre cómo resolverla o sobre el comportamiento de los datos) y el volumen de trabajo. Como historia de referencia se toma la HU3 (carga de promociones), de baja complejidad e incertidumbre, a la que se asignan 8 SP. Como referencia de planificación, 1 SP equivale aproximadamente a 2 horas de trabajo; las historias del núcleo suman 246 SP, unas 490 horas técnicas, y las horas restantes del proyecto se destinan a planificación, documentación, redacción de la memoria y preparación de la defensa.
 
-El Product Backlog debe permitir interpretar cómo será el proyecto y su funcionalidad. Se deben indicar claramente las prioridades entre las historias de usuario y si hay alguna opcional.
-
-Las historias de usuario deben ser breves, claras y medibles, expresando el rol, la necesidad y el propósito de cada funcionalidad. También deben tener una prioridad definida para facilitar la planificación de los sprints.
-
-Cada historia de usuario debe incluir una ponderación en \textit{Story Points}, un número entero que representa el tama\~no relativo de la historia. El criterio para calcular los Story Points debe indicarse explícitamente.
-
-Las historias deben seguir el formato: ``\textit{Como [rol], quiero [tal cosa] para [tal otra cosa]}''.
-
-Las \'{e}picas deben estructurarse de la siguiente forma:
+La prioridad de cada historia se define con el siguiente criterio:
 
 \begin{itemize}
-  \item \textbf{\'{E}pica 1}
-    \begin{itemize}
-      \item HU1
-      \item HU2
-    \end{itemize}
-  \item \textbf{\'{E}pica 2}
-    \begin{itemize}
-      \item HU3
-      \item HU4
-    \end{itemize}
-  \item \textbf{\'{E}pica 3}
-    \begin{itemize}
-      \item HU5
-      \item HU6
-    \end{itemize}
-  \item \textbf{\'{E}pica 4}
-    \begin{itemize}
-      \item HU7
-      \item HU8
-    \end{itemize}
+	\item Alta: imprescindible para el núcleo del proyecto o necesaria para desbloquear otras historias.
+	\item Media: forma parte del alcance, pero no bloquea a otras historias.
+	\item Baja (opcional): funcionalidad opcional, que se aborda solo si el cronograma lo permite.
 \end{itemize}
 
-\textbf{Reglas para definir historias de usuario:}
+En las historias se utilizan tres roles: el consumidor, que es el usuario final; el responsable del sistema, que es el autor en su rol de desarrollador y operador de los datos; y el director del trabajo.
+
 \begin{itemize}
-  \item Ser concisas y claras.
-  \item Expresarlas en términos cuantificables y medibles.
-  \item No dejar margen para interpretaciones ambiguas.
-  \item Indicar claramente su prioridad y si son opcionales.
-  \item Considerar regulaciones y normas vigentes.
+	\item Épica 1: datos de precios y promociones.
+	\begin{itemize}
+		\item HU1 (prioridad alta, 13 SP): como responsable del sistema, quiero que los precios publicados por el SEPA para las sucursales de las cuatro cadenas de Paraná se descarguen y almacenen automáticamente todos los días, junto con el histórico de preciazo desde septiembre de 2024, para contar con una serie de precios completa sin intervención manual.
+		\item HU2 (prioridad alta, 13 SP): como responsable del sistema, quiero que cada carga diaria se valide y que los precios anómalos queden marcados, para que los modelos se entrenen con datos confiables.
+		\item HU3 (prioridad alta, 8 SP): como responsable del sistema, quiero cargar una vez por mes, en un formato estructurado, las promociones de bancos y billeteras virtuales vigentes en las cuatro cadenas, para que el optimizador pueda aplicarlas con sus días, porcentajes, topes, segmentos y exclusiones.
+		\item HU13 (prioridad baja, opcional, 13 SP): como responsable del sistema, quiero que las promociones se obtengan automáticamente de los sitios de bancos y billeteras, para dejar de cargarlas en forma manual.
+	\end{itemize}
+	\item Épica 2: unificación de productos.
+	\begin{itemize}
+		\item HU4 (prioridad alta, 21 SP): como consumidor, quiero que un mismo producto se reconozca como tal en todas las cadenas, que las marcas propias de un mismo elaborador se identifiquen como alternativas y que los precios se expresen por kilogramo, litro o unidad, para comparar precios de forma justa.
+		\item HU5 (prioridad media, 34 SP): como consumidor, quiero que se me sugieran productos equivalentes de otra marca o presentación, para poder reemplazar un producto por otro más barato.
+	\end{itemize}
+	\item Épica 3: pronóstico de precios y detección de ofertas engañosas.
+	\begin{itemize}
+		\item HU6 (prioridad alta, 55 SP): como consumidor, quiero conocer el precio esperado de cada producto de mi lista en cada sucursal para los próximos 14 días y la probabilidad de que se remarque, con un intervalo de confianza, para decidir cuándo conviene comprar.
+		\item HU7 (prioridad alta, 21 SP): como consumidor, quiero que se me alerte cuando una oferta es engañosa (precio inflado antes del descuento, precio anterior inexistente o descuento menor al anunciado), para no tomar decisiones basadas en descuentos falsos.
+	\end{itemize}
+	\item Épica 4: recomendación de compra y evaluación.
+	\begin{itemize}
+		\item HU8 (prioridad alta, 34 SP): como consumidor, quiero ingresar mi lista de compras y mis medios de pago y recibir un plan que indique en qué sucursal, qué día y con qué medio de pago comprar, para pagar lo mínimo posible.
+		\item HU9 (prioridad media, 5 SP): como consumidor, quiero consultar si un precio que vi en un comercio fuera de las cadenas principales es conveniente, para decidir si comprar allí.
+		\item HU10 (prioridad media, 21 SP): como consumidor, quiero usar estas funcionalidades desde una aplicación web simple, para no necesitar conocimientos técnicos.
+		\item HU11 (prioridad alta, 21 SP): como director del trabajo, quiero conocer el ahorro en pesos que logra el sistema frente a la forma habitual de comprar, medido sobre datos no utilizados en el entrenamiento, para evaluar si la propuesta cumple su objetivo.
+		\item HU12 (prioridad baja, opcional, 21 SP): como consumidor, quiero escribir mi lista de compras y mis consultas en lenguaje natural, para interactuar con el sistema de forma más simple.
+	\end{itemize}
 \end{itemize}
+
+En el cuadro \ref{tab:backlog} se resume el Product Backlog.
+
+\begin{table}[H]
+\centering
+\caption{Resumen del Product Backlog.}
+\label{tab:backlog}
+\begin{tabularx}{\linewidth}{@{}|l|X|l|c|@{}}
+\hline
+\rowcolor[HTML]{C0C0C0}
+HU & Épica & Prioridad & SP \\ \hline
+HU1 & 1. Datos de precios y promociones & Alta & 13 \\ \hline
+HU2 & 1. Datos de precios y promociones & Alta & 13 \\ \hline
+HU3 & 1. Datos de precios y promociones & Alta & 8 \\ \hline
+HU4 & 2. Unificación de productos & Alta & 21 \\ \hline
+HU5 & 2. Unificación de productos & Media & 34 \\ \hline
+HU6 & 3. Pronóstico y ofertas engañosas & Alta & 55 \\ \hline
+HU7 & 3. Pronóstico y ofertas engañosas & Alta & 21 \\ \hline
+HU8 & 4. Recomendación de compra y evaluación & Alta & 34 \\ \hline
+HU9 & 4. Recomendación de compra y evaluación & Media & 5 \\ \hline
+HU10 & 4. Recomendación de compra y evaluación & Media & 21 \\ \hline
+HU11 & 4. Recomendación de compra y evaluación & Alta & 21 \\ \hline
+\multicolumn{3}{|l|}{Total del núcleo} & 246 \\ \hline
+HU12 & 4. Recomendación de compra y evaluación & Baja (opcional) & 21 \\ \hline
+HU13 & 1. Datos de precios y promociones & Baja (opcional) & 13 \\ \hline
+\end{tabularx}
+\end{table}
 
 \section{7. Criterios de aceptación de historias de usuario}
 \label{sec:criteriosAceptacion}
 
-Los criterios de aceptación deben establecerse para cada historia de usuario, asegurando que se cumplan las condiciones necesarias para que la funcionalidad sea validada correctamente.
-
-Cada historia debe tener criterios medibles, específicos y verificables. Deben permitir validar que se cumple con las necesidades del usuario.
-
-Se estructuran de forma análoga a las \'{e}picas del backlog:
+A continuación se detallan los criterios de aceptación de cada historia de usuario, agrupados por épica. Una historia se considera completada cuando se cumplen todos sus criterios.
 
 \begin{itemize}
-  \item \textbf{\'{E}pica 1}
-    \begin{itemize}
-      \item Criterios de aceptación HU1
-      \item Criterios de aceptación HU2
-    \end{itemize}
-  \item \textbf{\'{E}pica 2}
-    \begin{itemize}
-      \item Criterios de aceptación HU3
-      \item Criterios de aceptación HU4
-    \end{itemize}
-  \item \textbf{\'{E}pica 3}
-    \begin{itemize}
-      \item Criterios de aceptación HU5
-      \item Criterios de aceptación HU6
-    \end{itemize}
-  \item \textbf{\'{E}pica 4}
-    \begin{itemize}
-      \item Criterios de aceptación HU7
-      \item Criterios de aceptación HU8
-    \end{itemize}
-\end{itemize}
-
-\textbf{Reglas para definir criterios de aceptación:}
-\begin{itemize}
-  \item Medibles y verificables.
-  \item Especificar cuándo una historia se considera completada.
-  \item Incluir condiciones específicas.
-  \item No ambiguos.
-  \item Probables de testear funcional o técnicamente.
-  \item Mínimo 3 criterios por HU.
+	\item Épica 1: datos de precios y promociones.
+	\begin{itemize}
+		\item Criterios de aceptación de la HU1:
+		\begin{itemize}
+			\item Un proceso programado en la máquina virtual descarga el archivo diario del SEPA, filtra las sucursales de las cuatro cadenas de Paraná y lo almacena en archivos Parquet particionados por fecha y en PostgreSQL, sin intervención manual.
+			\item Durante un período de prueba de 30 días consecutivos se registran los datos de al menos el 95\,\% de los días publicados por el SEPA.
+			\item Ante una falla de descarga, el proceso reintenta al menos tres veces y deja un registro con la fecha y el motivo; los días faltantes se completan con el histórico de preciazo cuando está disponible.
+			\item El histórico de preciazo desde septiembre de 2024 queda importado con el mismo esquema que los datos diarios.
+		\end{itemize}
+		\item Criterios de aceptación de la HU2:
+		\begin{itemize}
+			\item Cada carga diaria se valida contra un esquema (tipos de datos, campos obligatorios, precio mayor que cero y dígito verificador del código EAN) y los registros inválidos se separan sin detener el proceso.
+			\item Se genera un reporte diario de calidad con la cantidad de registros, el porcentaje de faltantes por campo y la cantidad de anomalías detectadas.
+			\item Los precios anómalos se marcan, sin eliminarse, mediante Isolation Forest y reglas de variación de precio.
+			\item En una muestra de 50 casos marcados, revisada manualmente, al menos el 70\,\% corresponde a anomalías reales.
+		\end{itemize}
+		\item Criterios de aceptación de la HU3:
+		\begin{itemize}
+			\item Existe una plantilla estructurada con los campos entidad, medio de pago, cadena, días de vigencia, porcentaje de descuento, tope, segmento (por ejemplo, jubilados), exclusiones y fechas de inicio y fin.
+			\item Un validador rechaza las promociones con campos faltantes o inconsistentes (por ejemplo, un porcentaje fuera del rango de 0 a 100 o una fecha de fin anterior a la de inicio) e indica el error.
+			\item Las promociones de un mes completo de las cuatro cadenas se cargan en no más de 4 horas y quedan disponibles para el optimizador.
+		\end{itemize}
+		\item Criterios de aceptación de la HU13 (opcional):
+		\begin{itemize}
+			\item Un \textit{crawler} obtiene las promociones de al menos tres bancos o billeteras y las convierte al formato de la HU3.
+			\item Al comparar con la carga manual de un mes, al menos el 90\,\% de las promociones obtenidas coincide.
+			\item Si un cambio en un sitio impide la extracción, se registra el error y se conserva la última carga válida.
+		\end{itemize}
+	\end{itemize}
+	\item Épica 2: unificación de productos.
+	\begin{itemize}
+		\item Criterios de aceptación de la HU4:
+		\begin{itemize}
+			\item El 100\,\% de los productos con código EAN válido queda asociado a un producto canónico único, compartido entre cadenas.
+			\item Para al menos el 95\,\% de los productos se obtiene el precio por kilogramo, litro o unidad a partir de la presentación informada; los restantes quedan listados para revisión.
+			\item Las marcas propias de un mismo elaborador quedan vinculadas mediante el RNPA.
+			\item La normalización se verifica con pruebas automáticas sobre una muestra de 100 productos revisada manualmente, sin errores.
+		\end{itemize}
+		\item Criterios de aceptación de la HU5:
+		\begin{itemize}
+			\item Se construye un conjunto de al menos 500 pares de productos etiquetados manualmente como equivalentes o no equivalentes.
+			\item Sobre un conjunto de prueba no utilizado en el entrenamiento, el clasificador de pares alcanza un F1 de al menos 0,80 y supera a un umbral simple de similitud coseno.
+			\item Para cada producto, el sistema devuelve hasta cinco equivalentes ordenados por precio por unidad de medida, junto con su puntaje de similitud.
+		\end{itemize}
+	\end{itemize}
+	\item Épica 3: pronóstico de precios y detección de ofertas engañosas.
+	\begin{itemize}
+		\item Criterios de aceptación de la HU6:
+		\begin{itemize}
+			\item Para cada producto y sucursal, el modelo genera el precio pronosticado a 7 y 14 días con un intervalo de confianza del 80\,\%.
+			\item En el período de prueba (julio a septiembre de 2026), el error absoluto porcentual medio (MAPE) del modelo es menor que el de la línea de base ingenua (último precio observado).
+			\item La cobertura empírica de los intervalos del 80\,\% se encuentra entre el 75\,\% y el 85\,\%.
+			\item El modelo de remarcación estima la probabilidad de cambio de precio en los próximos 7 días y supera a la línea de base en área bajo la curva ROC.
+		\end{itemize}
+		\item Criterios de aceptación de la HU7:
+		\begin{itemize}
+			\item El precio de referencia de cada oferta se calcula como el mínimo de los 30 días previos, según el criterio de la Directiva Ómnibus.
+			\item Se detectan los tres casos definidos: inflado previo del precio, precio anterior inexistente y descuento efectivo menor al anunciado, con una tolerancia documentada.
+			\item Cada alerta incluye una explicación con los precios y las fechas que la justifican.
+			\item Sobre un conjunto de al menos 100 ofertas etiquetadas manualmente, la precisión de las alertas es de al menos 0,80.
+		\end{itemize}
+	\end{itemize}
+	\item Épica 4: recomendación de compra y evaluación.
+	\begin{itemize}
+		\item Criterios de aceptación de la HU8:
+		\begin{itemize}
+			\item Dada una lista de hasta 30 productos y un perfil de medios de pago, el optimizador devuelve en menos de 10 segundos un plan con sucursal, día, medio de pago, costo esperado y ahorro estimado.
+			\item El plan respeta las condiciones de cada promoción: días de vigencia, topes de reintegro, segmentos habilitados y exclusiones de productos.
+			\item En casos pequeños (hasta 5 productos), el costo del plan coincide con el óptimo obtenido por búsqueda exhaustiva.
+			\item Si un producto no está disponible en ninguna sucursal, el plan lo informa y lo excluye del cálculo.
+		\end{itemize}
+		\item Criterios de aceptación de la HU9:
+		\begin{itemize}
+			\item Dado un producto y un precio, el sistema devuelve el veredicto ``conveniente'', ``similar'' o ``caro'' frente al precio de referencia de las cadenas, con umbrales documentados (por ejemplo, $\pm$5\,\%).
+			\item La respuesta incluye el precio de referencia utilizado y la fecha de los datos.
+			\item Si el producto no se encuentra en la base, el sistema lo informa en lugar de emitir un veredicto.
+		\end{itemize}
+		\item Criterios de aceptación de la HU10:
+		\begin{itemize}
+			\item La API expone servicios para el plan de compra, las alertas y la consulta de precios externos, documentados con OpenAPI.
+			\item La aplicación web permite cargar una lista de compras y un perfil de medios de pago, y muestra el plan, el ahorro estimado y las alertas.
+			\item Los tres flujos principales (plan de compra, alerta de oferta engañosa y consulta de precio externo) pasan pruebas automatizadas de punta a punta.
+		\end{itemize}
+		\item Criterios de aceptación de la HU11:
+		\begin{itemize}
+			\item Se simulan al menos 200 listas de compras representativas, evaluadas sobre el período de prueba (julio a septiembre de 2026), que no se utiliza en el entrenamiento.
+			\item Se reporta el ahorro medio en pesos y en porcentaje frente a la estrategia ingenua (misma sucursal, día habitual y cualquier medio de pago), con su intervalo de confianza del 95\,\%.
+			\item La evaluación es reproducible: un único \textit{script} con semilla fija regenera todos los resultados.
+		\end{itemize}
+		\item Criterios de aceptación de la HU12 (opcional):
+		\begin{itemize}
+			\item El usuario puede ingresar la lista en texto libre (por ejemplo, ``2 kg de yerba y leche descremada'') y el sistema la convierte en productos del catálogo.
+			\item En una muestra de 50 consultas, al menos el 85\,\% de los productos se interpreta correctamente.
+			\item Cuando un producto es ambiguo, el sistema solicita una aclaración en lugar de suponer.
+		\end{itemize}
+	\end{itemize}
 \end{itemize}
 
 \section{8. Fases de CRISP-DM}
+\label{sec:crispdm}
 
-\begin{enumerate}
-  \item \textbf{Comprensión del negocio:} objetivo, valor agregado de IA, métricas de éxito.
-  \item \textbf{Comprensión de los datos:} tipo, origen, cantidad, calidad.
-  \item \textbf{Preparación de los datos:} características clave, transformaciones necesarias.
-  \item \textbf{Modelado:} tipo de problema, algoritmos posibles.
-  \item \textbf{Evaluación del modelo:} métricas de rendimiento.
-  \item \textbf{Despliegue del modelo (opcional):} tipo de despliegue y herramientas.
-\end{enumerate}
+El desarrollo del proyecto se organiza según las fases de la metodología CRISP-DM, que se describen a continuación.
+
+\subsection{Comprensión del negocio}
+
+El objetivo es que un consumidor pague lo mínimo posible por su compra de supermercado, eligiendo sucursal, día y medio de pago, y que no sea engañado por ofertas falsas. La inteligencia artificial agrega valor en tres puntos que un comparador de precios del día no resuelve: anticipa cuándo y cuánto cambiará un precio, reconoce productos equivalentes aunque tengan descripciones distintas y distingue un descuento real de uno aparente. La métrica de éxito central es el ahorro en pesos, y en porcentaje, frente a la forma habitual de comprar (misma sucursal, día habitual y cualquier medio de pago), medido mediante \textit{backtest} sobre compras simuladas. Se complementa con métricas técnicas por módulo, definidas en la fase de evaluación.
+
+\subsection{Comprensión de los datos}
+
+La fuente principal son los archivos diarios del SEPA, publicados en formato CSV comprimido, con tablas de comercios, sucursales y productos. Cada registro de producto incluye el código de barras, la descripción, la marca, la presentación, el precio de lista, el precio por unidad de medida y hasta dos promociones. Los datos son abiertos (licencia CC BY 4.0) y abarcan alrededor de 3.100 sucursales de 17 empresas; el trabajo se centra en las sucursales de las cuatro cadenas principales de Paraná. Como el portal solo conserva los últimos siete días, se incorpora el histórico de preciazo desde septiembre de 2024. Se suman las promociones bancarias y de billeteras cargadas manualmente cada mes, el RNPA para identificar elaboradores y un conjunto acotado de variables de contexto (índice de precios al consumidor del INDEC, feriados y fechas de eventos comerciales como CyberMonday y Black Friday).
+
+En cuanto a la calidad, se esperan días sin publicación, precios erróneos o desactualizados, descripciones heterogéneas entre cadenas para un mismo producto, códigos internos que no son EAN válidos y promociones expresadas en texto libre. Estos problemas se cuantifican en un análisis exploratorio inicial.
+
+\subsection{Preparación de los datos}
+
+Las transformaciones necesarias son la validación de esquema y de códigos EAN, la eliminación de duplicados, la normalización de unidades (precio por kilogramo, litro o unidad), la unificación de productos y la construcción de series diarias por producto y sucursal, con imputación acotada de los días faltantes. Las características clave para el pronóstico son los precios rezagados, los días transcurridos desde la última remarcación, la frecuencia histórica de remarcación del producto y de la cadena, el día de la semana, el mes, la inflación mensual, las fechas de eventos comerciales y las promociones vigentes. Para la unificación se generan \textit{embeddings} de las descripciones con Sentence-BERT y características de similitud entre pares. Los datos se particionan en forma temporal: entrenamiento de septiembre de 2024 a marzo de 2026, validación de abril a junio de 2026 y prueba de julio a septiembre de 2026.
+
+\subsection{Modelado}
+
+El proyecto combina varios tipos de problema:
+
+\begin{itemize}
+	\item Pronóstico de series temporales con intervalos de confianza (precio esperado a 7 y 14 días): líneas de base ingenuas y estacionales, modelos estadísticos como ETS y modelos de \textit{gradient boosting} (por ejemplo, LightGBM) con regresión por cuantiles.
+	\item Clasificación binaria de la remarcación (si el precio cambiará en los próximos 7 días): regresión logística y \textit{gradient boosting}.
+	\item Clasificación de pares de productos equivalentes: similitud coseno entre \textit{embeddings} de Sentence-BERT como línea de base y un clasificador entrenado sobre características de similitud.
+	\item Detección de anomalías no supervisada en los precios: Isolation Forest combinado con reglas de variación.
+	\item Detección de ofertas engañosas: reglas explícitas basadas en el precio de referencia de los 30 días previos.
+	\item Optimización de la compra: programación entera mixta, con solucionadores de código abierto como OR-Tools o PuLP.
+\end{itemize}
+
+\subsection{Evaluación del modelo}
+
+Cada módulo se evalúa con métricas específicas: para el pronóstico, el error absoluto medio en pesos, el MAPE, la pérdida por cuantiles y la cobertura empírica de los intervalos; para la remarcación, el área bajo la curva ROC y el F1; para la unificación de productos, la precisión, la exhaustividad y el F1 sobre pares etiquetados; y para las ofertas engañosas, la precisión sobre ofertas etiquetadas manualmente. Todos los modelos se comparan contra sus líneas de base. La evaluación integral del sistema es el ahorro en pesos frente a la estrategia ingenua, obtenido por \textit{backtest} sobre el período de prueba y reportado con su intervalo de confianza.
+
+\subsection{Despliegue del modelo}
+
+Se realiza un despliegue de demostración, no un producto en producción. La ingesta diaria se ejecuta con tareas programadas en una máquina virtual en la nube, y los archivos Parquet se guardan en un almacenamiento de objetos; el proveedor (por ejemplo, AWS S3, Google Cloud Storage o MinIO como alternativa local compatible con S3) se definirá durante el desarrollo. Los modelos y el optimizador se exponen mediante una API desarrollada con FastAPI y una aplicación web simple, empaquetadas con Docker sobre una base PostgreSQL. Los experimentos y las versiones de los modelos se registran con MLflow, y el reentrenamiento se ejecuta en forma periódica a partir de los nuevos datos.
 
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
 
-A partir de cada Historia de Usuario (HU) definida en la sección 6, descomponer el trabajo en tareas técnicas concretas, medibles y acotadas en el tiempo.
+En el cuadro \ref{tab:tareas} se presenta el desglose en tareas técnicas de las historias de usuario del núcleo. Las historias opcionales (HU12 y HU13) se desglosarán solo si se decide abordarlas.
 
-\begin{itemize}
-\item Seleccionar entre 2 y 3 tareas por cada historia de usuario.
-\item Cada tarea debe estar claramente formulada, ser técnica, accionable y con una estimación horaria entre 2 y 8 horas.
-\item Evitar tareas genéricas (como ''desarrollar funcionalidad´´) o demasiado amplias.
-\item Si una tarea supera las 8 horas, debe dividirse en subtareas.
-\item Indicar la prioridad relativa de cada tarea (Alta, Media o Baja).
-\end{itemize}
-
-\begin{table}[htpb]
-\centering
-\begin{tabularx}{\linewidth}{@{}|X|X|c|c|@{}}
+\begin{longtable}{@{}|p{1.3cm}|p{9.3cm}|c|c|@{}}
+\caption{Desglose de las historias de usuario en tareas técnicas.}
+\label{tab:tareas}\\
 \hline
 \rowcolor[HTML]{C0C0C0}
-Historia de usuario & Tarea técnica & Estimación & Prioridad \\ \hline
-HU1 & Tarea 1 HU1 & 6 h & Alta \\ \hline
-HU1 & Tarea 2 HU1 & 8 h & Alta \\ \hline
-HU2 & Tarea 1 HU2 & 5 h & Media \\ \hline
-HU2 & Tarea 2 HU2 & 6 h & Alta \\ \hline
-... & ... & ... & ... \\ \hline
-\end{tabularx}
-\end{table}
-
-\textbf{Criterios para estimar tiempos:}
-\begin{itemize}
-  \item Considerar la complejidad técnica, el nivel de incertidumbre y la experiencia previa.
-  \item Evitar subestimar el esfuerzo: estimar el tiempo realista que llevaría implementar, testear y documentar cada tarea.
-  \item Basar la estimación en la experiencia propia o en referencias de tareas similares.
-\end{itemize}
-
-\textbf{Sobre la prioridad:}
-\begin{itemize}
-  \item Asignar una prioridad relativa (Alta, Media o Baja) según la relevancia funcional de la tarea y su impacto en los entregables.
-  \item Priorizar tareas que estén vinculadas a criterios de aceptación de las HU o que sean necesarias para desbloquear otras.
-  \item Incluir tareas opcionales solo si están bien justificadas.
-\end{itemize}
-
-\textbf{Recomendaciones generales:}
-\begin{itemize}
-  \item -Enfocarse en tareas que surgen directamente de las HU planteadas.
-  \item No es necesario cubrir las 600 horas del proyecto en esta sección: el foco está en el desglose de funcionalidades clave.
-  \item Este trabajo será la base para organizar algunos de los sprints y elaborar el cronograma del proyecto, por lo que debe ser claro y realista.
-\end{itemize}
+HU & Tarea técnica & Estimación & Prioridad \\ \hline
+\endfirsthead
+\hline
+\rowcolor[HTML]{C0C0C0}
+HU & Tarea técnica & Estimación & Prioridad \\ \hline
+\endhead
+HU1 & Desarrollar el \textit{script} de descarga del archivo diario del SEPA y el filtrado de las sucursales de Paraná & 6 h & Alta \\ \hline
+HU1 & Configurar la máquina virtual con la tarea programada, los reintentos y el registro de errores & 5 h & Alta \\ \hline
+HU1 & Importar el histórico de preciazo a Parquet y PostgreSQL con el esquema unificado & 8 h & Alta \\ \hline
+HU2 & Implementar las reglas de validación de esquema y del dígito verificador del código EAN & 6 h & Alta \\ \hline
+HU2 & Implementar la detección de anomalías con Isolation Forest y el marcado de registros & 8 h & Media \\ \hline
+HU2 & Generar el reporte diario de calidad de datos & 4 h & Media \\ \hline
+HU3 & Diseñar el esquema de promociones (vigencia, porcentaje, tope, segmento y exclusiones) & 4 h & Alta \\ \hline
+HU3 & Implementar el validador de la plantilla y la carga en PostgreSQL & 6 h & Alta \\ \hline
+HU3 & Cargar y verificar las promociones del primer mes & 5 h & Media \\ \hline
+HU4 & Crear la tabla de productos canónicos por código EAN & 4 h & Alta \\ \hline
+HU4 & Implementar el analizador de presentaciones y la normalización por kilogramo, litro o unidad, con pruebas automáticas & 8 h & Alta \\ \hline
+HU4 & Vincular las marcas propias de un mismo elaborador mediante el RNPA & 6 h & Media \\ \hline
+HU5 & Generar \textit{embeddings} con Sentence-BERT y pares candidatos por similitud & 6 h & Media \\ \hline
+HU5 & Etiquetar manualmente 500 pares de productos & 8 h & Media \\ \hline
+HU5 & Entrenar y evaluar el clasificador de pares frente al umbral de similitud & 8 h & Media \\ \hline
+HU6 & Construir las series por producto y sucursal y las líneas de base de pronóstico & 6 h & Alta \\ \hline
+HU6 & Entrenar el modelo de pronóstico con regresión por cuantiles y evaluar MAPE y cobertura & 8 h & Alta \\ \hline
+HU6 & Entrenar y evaluar el modelo de probabilidad de remarcación & 8 h & Alta \\ \hline
+HU7 & Calcular el precio de referencia de los 30 días previos para cada oferta & 4 h & Alta \\ \hline
+HU7 & Implementar las reglas de los tres tipos de oferta engañosa con su explicación & 6 h & Alta \\ \hline
+HU7 & Etiquetar 100 ofertas y evaluar la precisión de las alertas & 6 h & Media \\ \hline
+HU8 & Formular el modelo de programación entera mixta (variables, restricciones y topes) & 8 h & Alta \\ \hline
+HU8 & Implementar el optimizador con el perfil de medios de pago del usuario & 8 h & Alta \\ \hline
+HU8 & Validar el optimizador contra búsqueda exhaustiva en casos pequeños & 5 h & Media \\ \hline
+HU9 & Calcular el precio de referencia por producto para la consulta externa & 4 h & Media \\ \hline
+HU9 & Implementar el servicio de veredicto con umbrales documentados & 3 h & Media \\ \hline
+HU10 & Desarrollar la API con FastAPI y su documentación OpenAPI & 8 h & Media \\ \hline
+HU10 & Desarrollar la aplicación web de demostración & 8 h & Media \\ \hline
+HU10 & Implementar las pruebas de punta a punta de los tres flujos principales & 4 h & Baja \\ \hline
+HU11 & Desarrollar el generador de listas de compras simuladas & 6 h & Alta \\ \hline
+HU11 & Implementar el \textit{backtest} con partición temporal y la estrategia ingenua & 8 h & Alta \\ \hline
+HU11 & Generar el reporte de ahorro con intervalos de confianza & 4 h & Alta \\ \hline
+\end{longtable}
 
 \section{10. Planificación de Sprints}
 
