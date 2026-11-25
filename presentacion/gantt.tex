@@ -1,0 +1,52 @@
+\documentclass[border=4pt]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{pgfgantt}
+\definecolor{tec}{HTML}{95D5B2}
+\definecolor{tecb}{HTML}{2D6A4F}
+\definecolor{nt}{HTML}{FFC078}
+\definecolor{ntb}{HTML}{B35C00}
+\begin{document}
+\begin{ganttchart}[
+	time slot format=isodate,
+	x unit=0.05cm,
+	y unit chart=0.62cm,
+	y unit title=0.6cm,
+	hgrid,
+	vgrid=false,
+	title label font=\small,
+	bar label font=\small,
+	milestone label font=\small\bfseries,
+	bar/.append style={fill=tec, draw=tecb},
+	bar height=0.6,
+	milestone/.append style={fill=black},
+	milestone height=0.6,
+	milestone left shift=-3,
+	milestone right shift=3
+]{2026-10-19}{2027-08-22}
+\gantttitle{2026}{74} \gantttitle{2027}{234} \\
+\gantttitle{oct}{13} \gantttitle{nov}{30} \gantttitle{dic}{31}
+\gantttitle{ene}{31} \gantttitle{feb}{28} \gantttitle{mar}{31} \gantttitle{abr}{30}
+\gantttitle{may}{31} \gantttitle{jun}{30} \gantttitle{jul}{31} \gantttitle{ago}{22} \\
+\ganttbar[bar/.append style={fill=nt, draw=ntb}]{Sprint 0: planificación}{2026-10-19}{2026-12-13} \\
+\ganttmilestone{Plan aprobado}{2026-12-13} \\
+\ganttbar{Sprint 1: HU1, HU3, HU2}{2026-12-14}{2027-01-03} \\
+\ganttbar{Sprint 2: HU2, HU4}{2027-01-04}{2027-01-24} \\
+\ganttbar{Sprint 3: HU4, HU5}{2027-01-25}{2027-02-14} \\
+\ganttbar{Sprint 4: HU5, HU6}{2027-02-15}{2027-03-07} \\
+\ganttbar{Sprint 5: HU6}{2027-03-08}{2027-03-28} \\
+\ganttbar{Sprint 6: HU6, HU7}{2027-03-29}{2027-04-18} \\
+\ganttbar{Sprint 7: HU7, HU8}{2027-04-19}{2027-05-09} \\
+\ganttbar{Sprint 8: HU8, HU9}{2027-05-10}{2027-05-30} \\
+\ganttbar{Sprint 9: HU8, HU10}{2027-05-31}{2027-06-20} \\
+\ganttmilestone{Fin del desarrollo técnico}{2027-06-20} \\
+\ganttbar{Sprint 10: HU11}{2027-06-21}{2027-07-11} \\
+\ganttbar[bar/.append style={fill=nt, draw=ntb}]{Sprint 11: cierre de la memoria}{2027-07-12}{2027-08-01} \\
+\ganttbar[bar/.append style={fill=nt, draw=ntb}]{Redacción de la memoria (talleres A y B)}{2027-04-19}{2027-08-01} \\
+\ganttmilestone{Memoria finalizada}{2027-08-01} \\
+\ganttbar[bar/.append style={fill=nt, draw=ntb}]{Sprint 12: defensa}{2027-08-02}{2027-08-15} \\
+\ganttmilestone{Defensa pública}{2027-08-16}
+\end{ganttchart}
+\end{document}

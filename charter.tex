@@ -66,6 +66,7 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 		  Se completa hasta el punto 12 inclusive               & 14 de noviembre de 2026 \\ \hline
 4      & Se incorporan las correcciones de la revisión 3 \newline
 		  Se completa el plan                                   & 23 de noviembre de 2026 \\ \hline
+5      & Se incorporan las correcciones de la revisión 4      & 24 de noviembre de 2026 \\ \hline
 %2      & Se completa hasta el punto 9 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
@@ -116,7 +117,7 @@ El presente trabajo es un emprendimiento personal del autor, desarrollado en el 
 
 \subsection{El problema}
 
-Una persona tiene su lista de compras y quiere saber dónde, cuándo y con qué medio de pago le conviene comprarla. La decisión no es trivial: en Argentina los precios se remarcan cada pocas semanas; cada cadena, banco y billetera virtual ofrece descuentos con días, porcentajes, segmentos (por ejemplo, jubilados), exclusiones y topes distintos; un mismo producto puede encontrarse en otra marca o presentación; y en fechas como CyberMonday o Black Friday es habitual que un precio suba antes de la promoción para luego ``bajar''. Por ejemplo, en un ticket real de Coto (La Plata, 16/11/2024) una compra de \$\,33.372 abonada con un descuento anunciado del 15\,\% ``sin tope'' de Mercado Pago obtuvo una rebaja de \$\,1.173, es decir, un 3,5\,\% efectivo, debido a las exclusiones de productos.
+Una persona tiene su lista de compras y quiere saber dónde, cuándo y con qué medio de pago le conviene comprarla. La decisión no es trivial. En Argentina los precios se remarcan cada pocas semanas. Cada cadena, banco y billetera virtual ofrece descuentos con días, porcentajes, segmentos (por ejemplo, jubilados), exclusiones y topes distintos. Además, un mismo producto puede encontrarse en otra marca o presentación, y en fechas como CyberMonday o Black Friday es habitual que un precio suba antes de la promoción para luego ``bajar''. Por ejemplo, en un ticket real de Coto (La Plata, 16/11/2024) una compra de \$\,33.372 abonada con un descuento anunciado del 15\,\% ``sin tope'' de Mercado Pago obtuvo una rebaja de \$\,1.173, es decir, un 3,5\,\% efectivo, debido a las exclusiones de productos.
 
 \subsection{Estado del arte}
 
@@ -253,13 +254,13 @@ Para el desarrollo del presente proyecto se supone que:
 	\item El autor dispondrá de aproximadamente 600 horas de trabajo entre octubre de 2026 y agosto de 2027, compatibles con su actividad laboral y con la cursada.
 	\item Serán suficientes los recursos de cómputo disponibles: una computadora personal y servicios en la nube de bajo costo o de capa gratuita (una máquina virtual y almacenamiento de objetos, por ejemplo en AWS, GCP u otro proveedor, o bien un almacenamiento compatible con S3 como MinIO), junto con herramientas y modelos preentrenados de código abierto.
 	\item El director del trabajo estará disponible para responder consultas y recibir los informes mensuales de avance.
-	\item El contexto macroeconómico mantendrá la variabilidad de precios y la diversidad de promociones que hacen relevante el problema; en caso de cambios significativos, la metodología seguirá siendo aplicable.
+	\item El contexto macroeconómico mantendrá la variabilidad de precios y la diversidad de promociones que hacen relevante el problema. En caso de cambios significativos, la metodología seguirá siendo aplicable.
 \end{itemize}
 
 \section{6. Product Backlog}
 \label{sec:backlog}
 
-Para ponderar las historias de usuario se utilizan Story Points (SP) en escala de Fibonacci (1, 2, 3, 5, 8, 13, 21, 34 y 55). El valor de cada historia combina tres factores: la complejidad técnica, la incertidumbre (cuánto se desconoce sobre cómo resolverla o sobre el comportamiento de los datos) y el volumen de trabajo. Como historia de referencia se toma la HU3 (carga de promociones), de baja complejidad e incertidumbre, a la que se asignan 8 SP. Como referencia de planificación, 1 SP equivale aproximadamente a 2 horas de trabajo; las historias del núcleo suman 246 SP, unas 490 horas técnicas, y las horas restantes del proyecto se destinan a planificación, documentación, redacción de la memoria y preparación de la defensa.
+Para ponderar las historias de usuario se utilizan Story Points (SP) en escala de Fibonacci (1, 2, 3, 5, 8, 13, 21, 34 y 55). El valor de cada historia combina tres factores: la complejidad técnica, la incertidumbre (cuánto se desconoce sobre cómo resolverla o sobre el comportamiento de los datos) y el volumen de trabajo. Como historia de referencia se toma la HU3 (carga de promociones), de baja complejidad e incertidumbre, a la que se asignan 8 SP. Como referencia de planificación, 1 SP equivale aproximadamente a 2 horas de trabajo. Las historias del núcleo suman 246 SP, unas 490 horas técnicas, y las horas restantes del proyecto se destinan a planificación, documentación, redacción de la memoria y preparación de la defensa.
 
 La prioridad de cada historia se define con el siguiente criterio:
 
@@ -269,7 +270,7 @@ La prioridad de cada historia se define con el siguiente criterio:
 	\item Baja (opcional): funcionalidad opcional, que se aborda solo si el cronograma lo permite.
 \end{itemize}
 
-En las historias se utilizan tres roles: el consumidor, que es el usuario final; el responsable del sistema, que es el autor en su rol de desarrollador y operador de los datos; y el director del trabajo.
+En las historias se utilizan tres roles: el consumidor (el usuario final), el responsable del sistema (el autor, en su rol de desarrollador y operador de los datos) y el director del trabajo.
 
 \begin{itemize}
 	\item Épica 1: datos de precios y promociones.
@@ -338,7 +339,7 @@ A continuación se detallan los criterios de aceptación de cada historia de usu
 		\begin{itemize}
 			\item Un proceso programado en la máquina virtual descarga el archivo diario del SEPA, filtra las sucursales de las cuatro cadenas de Paraná y lo almacena en archivos Parquet particionados por fecha y en PostgreSQL, sin intervención manual.
 			\item Durante un período de prueba de 30 días consecutivos se registran los datos de al menos el 95\,\% de los días publicados por el SEPA.
-			\item Ante una falla de descarga, el proceso reintenta al menos tres veces y deja un registro con la fecha y el motivo; los días faltantes se completan con el histórico de preciazo cuando está disponible.
+			\item Ante una falla de descarga, el proceso reintenta al menos tres veces y deja un registro con la fecha y el motivo. Los días faltantes se completan con el histórico de preciazo cuando está disponible.
 			\item Como el portal solo conserva los archivos de los últimos siete días, el proceso detecta y descarga automáticamente las fechas faltantes de ese período sin intervención manual.
 			\item El histórico de preciazo desde el 19 de agosto de 2024 queda importado con el mismo esquema que los datos diarios, y en las fechas superpuestas se verifica que coincide con los archivos oficiales.
 		\end{itemize}
@@ -346,7 +347,7 @@ A continuación se detallan los criterios de aceptación de cada historia de usu
 		\begin{itemize}
 			\item Cada carga diaria se valida contra un esquema (tipos de datos, campos obligatorios, precio mayor que cero y dígito verificador del código EAN) y los registros inválidos se separan sin detener el proceso.
 			\item Se procesan correctamente las variantes conocidas de los archivos: esquemas de columnas distintos según el comercio, codificaciones de texto diferentes y archivos vacíos o dañados, que se registran y se omiten.
-			\item Se mantiene un inventario de las fechas sin datos; los huecos de hasta cinco días se completan con el último precio observado y quedan marcados como imputados, mientras que los huecos mayores no se imputan.
+			\item Se mantiene un inventario de las fechas sin datos. Los huecos de hasta cinco días se completan con el último precio observado y quedan marcados como imputados, mientras que los huecos mayores no se imputan.
 			\item Se genera un reporte diario de calidad con la cantidad de registros, el porcentaje de faltantes por campo y la cantidad de anomalías detectadas.
 			\item Los precios anómalos se marcan, sin eliminarse, mediante Isolation Forest y reglas de variación de precio.
 			\item En una muestra de 50 casos marcados, revisada manualmente, al menos el 70\,\% corresponde a anomalías reales.
@@ -371,7 +372,7 @@ A continuación se detallan los criterios de aceptación de cada historia de usu
 		\item Criterios de aceptación de la HU4:
 		\begin{itemize}
 			\item El 100\,\% de los productos con código EAN válido queda asociado a un producto canónico único, compartido entre cadenas.
-			\item Para al menos el 95\,\% de los productos se obtiene el precio por kilogramo, litro o unidad a partir de la presentación informada; los restantes quedan listados para revisión.
+			\item Para al menos el 95\,\% de los productos se obtiene el precio por kilogramo, litro o unidad a partir de la presentación informada, y los restantes quedan listados para revisión.
 			\item Las marcas propias de un mismo elaborador quedan vinculadas mediante el RNPA.
 			\item La normalización se verifica con pruebas automáticas sobre una muestra de 100 productos revisada manualmente, sin errores.
 		\end{itemize}
@@ -447,7 +448,7 @@ El objetivo es que un consumidor pague lo mínimo posible por su compra de super
 
 \subsection{Comprensión de los datos}
 
-La fuente principal son los archivos diarios del SEPA, publicados en formato CSV comprimido, con tablas de comercios, sucursales y productos. Cada registro de producto incluye el código de barras, la descripción, la marca, la presentación, el precio de lista, el precio por unidad de medida y hasta dos promociones. Los datos son abiertos (licencia CC BY 4.0) y abarcan alrededor de 3.100 sucursales de 17 empresas; el trabajo se centra en las sucursales de las cuatro cadenas principales de Paraná. Cada archivo diario pesa alrededor de 320 MB comprimido y contiene unos 14 millones de registros de productos a nivel nacional. Como el portal solo conserva los últimos siete días, se incorpora el histórico de preciazo, una recopilación de los mismos archivos diarios desde el 19 de agosto de 2024 (unos 660 días y alrededor de 40 GB comprimidos). Para las promociones bancarias y de billeteras, que el SEPA no informa y cuyo historial las entidades no publican, se utiliza un histórico reconstruido a partir de notas periodísticas, con unas 480 promociones de agosto de 2024 a noviembre de 2026 provenientes de 80 fuentes, cada una con su nivel de confianza; a partir de allí se suma la carga manual mensual. Se incorporan también el RNPA para identificar elaboradores y un conjunto acotado de variables de contexto (índice de precios al consumidor del INDEC, feriados y fechas de eventos comerciales como CyberMonday y Black Friday).
+La fuente principal son los archivos diarios del SEPA, publicados en formato CSV comprimido, con tablas de comercios, sucursales y productos. Cada registro de producto incluye el código de barras, la descripción, la marca, la presentación, el precio de lista, el precio por unidad de medida y hasta dos promociones. Los datos son abiertos (licencia CC BY 4.0) y abarcan alrededor de 3.100 sucursales de 17 empresas, y el trabajo se centra en las sucursales de las cuatro cadenas principales de Paraná. Cada archivo diario pesa alrededor de 320 MB comprimido y contiene unos 14 millones de registros de productos a nivel nacional. Como el portal solo conserva los últimos siete días, se incorpora el histórico de preciazo, una recopilación de los mismos archivos diarios desde el 19 de agosto de 2024 (unos 660 días y alrededor de 40 GB comprimidos). Para las promociones bancarias y de billeteras, que el SEPA no informa y cuyo historial las entidades no publican, se utiliza un histórico reconstruido a partir de notas periodísticas, con unas 480 promociones de agosto de 2024 a noviembre de 2026 provenientes de 80 fuentes, cada una con su nivel de confianza. A partir de allí se suma la carga manual mensual. Se incorporan también el RNPA para identificar elaboradores y un conjunto acotado de variables de contexto (índice de precios al consumidor del INDEC, feriados y fechas de eventos comerciales como CyberMonday y Black Friday).
 
 En cuanto a la calidad, el relevamiento inicial de los archivos mostró variantes de esquema según el comercio y el período, archivos con otra codificación de texto y archivos vacíos o dañados. Además, se esperan días sin publicación, precios erróneos o desactualizados, descripciones heterogéneas entre cadenas para un mismo producto, códigos internos que no son EAN válidos y promociones expresadas en texto libre. En el histórico de promociones, los topes y las exclusiones no siempre figuran en las notas, hay meses con menor cobertura y algunas promociones aparecen repetidas o con datos contradictorios entre fuentes. A esto se suman huecos en la serie de precios: entre el 19 de agosto de 2024 y el 14 de noviembre de 2026 se dispone de 687 de 818 días (84\,\%). La mayoría de los huecos son de uno a cinco días, pero faltan los 105 días entre el 18 de marzo y el 30 de junio de 2026 y los ocho días entre el 23 y el 30 de septiembre de 2026. En las promociones, 25 de las 112 combinaciones de cadena y mes no tienen información relevada, sobre todo para ChangoMás y DIA antes de diciembre de 2025, y alrededor de un tercio de las promociones no informa su tope. Estos problemas se cuantifican en detalle en un análisis exploratorio inicial.
 
@@ -470,11 +471,11 @@ El proyecto combina varios tipos de problema:
 
 \subsection{Evaluación del modelo}
 
-Cada módulo se evalúa con métricas específicas: para el pronóstico, el error absoluto medio en pesos, el MAPE, la pérdida por cuantiles y la cobertura empírica de los intervalos; para la remarcación, el área bajo la curva ROC y el F1; para la unificación de productos, la precisión, la exhaustividad y el F1 sobre pares etiquetados; y para las ofertas engañosas, la precisión sobre ofertas etiquetadas manualmente. Todos los modelos se comparan contra sus líneas de base. La evaluación integral del sistema es el ahorro en pesos frente a la estrategia ingenua, obtenido por backtest sobre el período de prueba y reportado con su intervalo de confianza.
+Cada módulo se evalúa con métricas específicas. Para el pronóstico se utilizan el error absoluto medio en pesos, el MAPE, la pérdida por cuantiles y la cobertura empírica de los intervalos. Para la remarcación, el área bajo la curva ROC y el F1. Para la unificación de productos, la precisión, la exhaustividad y el F1 sobre pares etiquetados. Para las ofertas engañosas, la precisión sobre ofertas etiquetadas manualmente. Todos los modelos se comparan contra sus líneas de base. La evaluación integral del sistema es el ahorro en pesos frente a la estrategia ingenua, obtenido por backtest sobre el período de prueba y reportado con su intervalo de confianza.
 
 \subsection{Despliegue del modelo}
 
-Se realiza un despliegue de demostración, no un producto en producción. La ingesta diaria se ejecuta con tareas programadas en una máquina virtual en la nube, y los archivos Parquet se guardan en un almacenamiento de objetos; el proveedor (por ejemplo, AWS S3, Google Cloud Storage o MinIO como alternativa local compatible con S3) se definirá durante el desarrollo. Los modelos y el optimizador se exponen mediante una API desarrollada con FastAPI y una aplicación web simple, empaquetadas con Docker sobre una base PostgreSQL. Los experimentos y las versiones de los modelos se registran con MLflow, y el reentrenamiento se ejecuta en forma periódica a partir de los nuevos datos.
+Se realiza un despliegue de demostración, no un producto en producción. La ingesta diaria se ejecuta con tareas programadas en una máquina virtual en la nube, y los archivos Parquet se guardan en un almacenamiento de objetos. El proveedor (por ejemplo, AWS S3, Google Cloud Storage o MinIO como alternativa local compatible con S3) se definirá durante el desarrollo. Los modelos y el optimizador se exponen mediante una API desarrollada con FastAPI y una aplicación web simple, empaquetadas con Docker sobre una base PostgreSQL. Los experimentos y las versiones de los modelos se registran con MLflow, y el reentrenamiento se ejecuta en forma periódica a partir de los nuevos datos.
 
 \section{9. Desglose del trabajo en tareas}
 \label{sec:wbs}
@@ -598,10 +599,10 @@ Sprint 3 & 25/01/2027 & 14/02/2027 & 50 h & HU4 y HU5 \\ \hline
 Sprint 4 & 15/02/2027 & 07/03/2027 & 50 h & HU5 y HU6 \\ \hline
 Sprint 5 & 08/03/2027 & 28/03/2027 & 50 h & HU6 \\ \hline
 Sprint 6 & 29/03/2027 & 18/04/2027 & 50 h & HU6 y HU7 \\ \hline
-Sprint 7 & 19/04/2027 & 09/05/2027 & 54 h & HU7 y HU8; inicio de la memoria \\ \hline
-Sprint 8 & 10/05/2027 & 30/05/2027 & 54 h & HU8 y HU9; memoria \\ \hline
-Sprint 9 & 31/05/2027 & 20/06/2027 & 54 h & HU8 y HU10; memoria \\ \hline
-Sprint 10 & 21/06/2027 & 11/07/2027 & 50 h & HU11; memoria \\ \hline
+Sprint 7 & 19/04/2027 & 09/05/2027 & 54 h & HU7, HU8 e inicio de la memoria \\ \hline
+Sprint 8 & 10/05/2027 & 30/05/2027 & 54 h & HU8, HU9 y memoria \\ \hline
+Sprint 9 & 31/05/2027 & 20/06/2027 & 54 h & HU8, HU10 y memoria \\ \hline
+Sprint 10 & 21/06/2027 & 11/07/2027 & 50 h & HU11 y memoria \\ \hline
 Sprint 11 & 12/07/2027 & 01/08/2027 & 30 h & Cierre de la memoria (no técnico) \\ \hline
 Sprint 12 & 02/08/2027 & 15/08/2027 & 18 h & Preparación de la defensa (no técnico) \\ \hline
 \multicolumn{3}{|l|}{Total} & 600 h & \\ \hline
@@ -689,7 +690,7 @@ Se identifican los siguientes sesgos posibles en los datos y en los modelos:
 
 \begin{itemize}
 	\item Sesgo de cobertura: el SEPA solo incluye a las cadenas obligadas a informar, y el trabajo se limita a cuatro cadenas de Paraná y a productos con código de barras. Las recomendaciones podrían favorecer a las grandes cadenas frente a los comercios de cercanía, que no figuran en los datos. La consulta de precios externos atenúa parcialmente este sesgo.
-	\item Sesgo de reconstrucción de las promociones: el histórico de promociones proviene de notas periodísticas, que cubren mejor a los bancos y billeteras de mayor alcance y a algunas cadenas y meses que a otros; en particular, ChangoMás y DIA tienen poca cobertura antes de diciembre de 2025 y cerca de un tercio de las promociones no informa su tope. Esto podría subestimar o sobrestimar el ahorro en el backtest. Se mitiga evaluando el sistema por separado según el nivel de confianza y la cobertura de las promociones, con un análisis de sensibilidad sobre los topes no informados y contrastando los descuentos con tickets de compra reales.
+	\item Sesgo de reconstrucción de las promociones: el histórico de promociones proviene de notas periodísticas, que cubren mejor a los bancos y billeteras de mayor alcance y a algunas cadenas y meses que a otros. En particular, ChangoMás y DIA tienen poca cobertura antes de diciembre de 2025 y cerca de un tercio de las promociones no informa su tope. Esto podría subestimar o sobrestimar el ahorro en el backtest. Se mitiga evaluando el sistema por separado según el nivel de confianza y la cobertura de las promociones, con un análisis de sensibilidad sobre los topes no informados y contrastando los descuentos con tickets de compra reales.
 	\item Sesgo socioeconómico: buena parte del ahorro proviene de promociones bancarias y de billeteras virtuales, por lo que las personas sin acceso a esos medios de pago obtendrían un beneficio menor. Para mitigarlo, el sistema también calcula el mejor plan con efectivo o débito sin promociones e informa el ahorro alcanzable en cada caso.
 	\item Sesgo temporal: los modelos aprenden del comportamiento de los precios en un período determinado, y un cambio en el contexto macroeconómico podría reducir su precisión. Se mitiga con el reentrenamiento periódico y con el seguimiento del error de pronóstico.
 	\item Sesgo de lenguaje: los modelos preentrenados de Sentence-BERT podrían representar peor las descripciones abreviadas o regionales de los productos en español, lo que generaría errores de unificación. Se mitiga con modelos multilingües, con el etiquetado de pares propios y con la evaluación del clasificador sobre datos locales.
@@ -778,25 +779,25 @@ Criterio adoptado: se tomarán medidas de mitigación en los riesgos cuyo RPN se
 
 c) Plan de mitigación de los riesgos que originalmente excedían el RPN máximo establecido:
 
-Riesgo 1: Se configuran alertas automáticas ante fallas, se verifica a diario el inventario de fechas descargadas, el proceso se ejecuta en dos horarios por día y se utiliza el histórico de preciazo como fuente de respaldo para completar los días faltantes.
+Riesgo 1: se configuran alertas automáticas ante fallas, se verifica a diario el inventario de fechas descargadas, el proceso se ejecuta en dos horarios por día y se utiliza el histórico de preciazo como fuente de respaldo para completar los días faltantes.
 \begin{itemize}
 	\item Severidad (S*): 5, porque la fuente de respaldo permite completar la mayoría de los días perdidos.
 	\item Ocurrencia (O*): 2, porque las alertas y la ejecución redundante permiten actuar dentro de la ventana de siete días del portal.
 \end{itemize}
 
-Riesgo 2: Se incorporan mensualmente las promociones vigentes a partir de las fuentes oficiales, se evalúa el sistema por separado según la cobertura y el nivel de confianza de las promociones, se realiza un análisis de sensibilidad sobre los topes no informados y se contrastan los descuentos con tickets de compra reales.
+Riesgo 2: se incorporan mensualmente las promociones vigentes a partir de las fuentes oficiales, se evalúa el sistema por separado según la cobertura y el nivel de confianza de las promociones, se realiza un análisis de sensibilidad sobre los topes no informados y se contrastan los descuentos con tickets de compra reales.
 \begin{itemize}
 	\item Severidad (S*): 5, porque los resultados siguen siendo interpretables al acotar la evaluación a los períodos con buena cobertura.
 	\item Ocurrencia (O*): 5, porque los huecos del histórico no pueden recuperarse, aunque dejan de afectar a los períodos nuevos.
 \end{itemize}
 
-Riesgo 3: Se construyen las líneas de base desde el sprint 4, se comparan varias familias de modelos y el optimizador se diseña para trabajar con el mejor pronóstico disponible, incluida la línea de base. El valor del sistema se mide por el ahorro total y no solo por la precisión del pronóstico.
+Riesgo 3: se construyen las líneas de base desde el sprint 4, se comparan varias familias de modelos y el optimizador se diseña para trabajar con el mejor pronóstico disponible, incluida la línea de base. El valor del sistema se mide por el ahorro total y no solo por la precisión del pronóstico.
 \begin{itemize}
 	\item Severidad (S*): 4, porque, aun sin mejora en el pronóstico, el sistema conserva su valor a través del optimizador y de la detección de ofertas engañosas.
 	\item Ocurrencia (O*): 5, porque la dificultad propia del problema no cambia.
 \end{itemize}
 
-Riesgo 4: Se priorizan las historias de prioridad alta, se utilizan las historias opcionales como margen de alcance, se revisa el avance al final de cada sprint y se informa mensualmente al director para reprogramar a tiempo.
+Riesgo 4: se priorizan las historias de prioridad alta, se utilizan las historias opcionales como margen de alcance, se revisa el avance al final de cada sprint y se informa mensualmente al director para reprogramar a tiempo.
 \begin{itemize}
 	\item Severidad (S*): 5, porque el recorte del alcance opcional protege el núcleo del proyecto y la fecha de la defensa.
 	\item Ocurrencia (O*): 4, porque el seguimiento por sprint permite detectar los desvíos en forma temprana.
@@ -805,7 +806,7 @@ Riesgo 4: Se priorizan las historias de prioridad alta, se utilizan las historia
 \section{14. Sprint Review}
 \label{sec:sprint_review}
 
-Para proyectar la revisión de los sprints se seleccionan cinco historias de usuario del núcleo, que cubren la ingesta de datos, el pronóstico, la detección de ofertas engañosas, la optimización y la evaluación integral del sistema. En el cuadro \ref{tab:review} se resume, para cada una, cómo se evaluará su cumplimiento al finalizar el sprint correspondiente. La revisión se realizará con el director al cierre de cada sprint, y sus conclusiones se incorporarán al informe mensual de avance.
+Para proyectar la revisión de los sprints se seleccionan cinco historias de usuario del núcleo, que cubren la ingesta de datos, el pronóstico, la detección de ofertas engañosas, la optimización y la evaluación integral del sistema. En el cuadro \ref{tab:review} se resume, para cada una, cómo se evaluará su cumplimiento al finalizar el sprint correspondiente. La revisión se realizará con el director al cierre de cada sprint y sus conclusiones se incorporarán al informe mensual de avance.
 
 {\small
 \begin{longtable}{@{}|>{\raggedright\arraybackslash}p{1.1cm}|>{\raggedright\arraybackslash}p{3.1cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{2.9cm}|@{}}
@@ -819,11 +820,11 @@ HU & Tareas asociadas & Entregable esperado & ¿Cómo se sabrá que está cumpli
 \rowcolor[HTML]{C0C0C0}
 HU & Tareas asociadas & Entregable esperado & ¿Cómo se sabrá que está cumplida? & Observaciones o riesgos \\ \hline
 \endhead
-HU1 & Script de descarga y filtrado; tarea programada con reintentos; importación del histórico de preciazo & Proceso de ingesta diaria en funcionamiento y base histórica unificada desde el 19/08/2024 & Durante 30 días seguidos se registra al menos el 95\,\% de los días publicados y el histórico coincide con los archivos oficiales en las fechas superpuestas & La infraestructura en la nube todavía no está definida (riesgo 7) \\ \hline
-HU6 & Series y líneas de base; modelo de pronóstico por cuantiles; modelo de remarcación & Modelos entrenados y registrados en MLflow, con su reporte de evaluación & El MAPE es menor que el de la línea de base y la cobertura de los intervalos del 80\,\% está entre el 75\,\% y el 85\,\% & El hueco de 105 días previo a la prueba exige un período de arranque; puede no superarse la línea de base (riesgo 3) \\ \hline
-HU7 & Precio de referencia de 30 días; reglas de los tres tipos de oferta engañosa; etiquetado y evaluación de 100 ofertas & Módulo de alertas con explicación y reporte de precisión & La precisión sobre las ofertas etiquetadas es de al menos 0,80 y cada alerta incluye los precios y las fechas que la justifican & Los falsos positivos podrían afectar la reputación de una cadena \\ \hline
-HU8 & Formulación del modelo de programación entera mixta; implementación con el perfil de medios de pago; validación contra búsqueda exhaustiva & Optimizador que devuelve el plan de compra con su costo y ahorro estimado & Responde en menos de 10 s para 30 productos, respeta topes y días de las promociones y coincide con el óptimo exhaustivo en casos pequeños & Los topes no informados en el histórico de promociones requieren un supuesto conservador \\ \hline
-HU11 & Generador de listas simuladas; backtest con la estrategia ingenua; reporte del ahorro con intervalos de confianza & Informe reproducible de evaluación del ahorro & Se evalúan al menos 200 listas, se informa el ahorro medio con su intervalo de confianza del 95\,\% y un único script regenera los resultados & La cobertura desigual de las promociones condiciona la interpretación (riesgo 2) \\ \hline
+HU1 & Script de descarga y filtrado, tarea programada con reintentos e importación del histórico de preciazo & Proceso de ingesta diaria en funcionamiento y base histórica unificada desde el 19/08/2024 & Durante 30 días seguidos se registra al menos el 95\,\% de los días publicados y el histórico coincide con los archivos oficiales en las fechas superpuestas & La infraestructura en la nube todavía no está definida (riesgo 7) \\ \hline
+HU6 & Series y líneas de base, modelo de pronóstico por cuantiles y modelo de remarcación & Modelos entrenados y registrados en MLflow, con su reporte de evaluación & El MAPE es menor que el de la línea de base y la cobertura de los intervalos del 80\,\% está entre el 75\,\% y el 85\,\% & El hueco de 105 días previo a la prueba exige un período de arranque y puede no superarse la línea de base (riesgo 3) \\ \hline
+HU7 & Precio de referencia de 30 días, reglas de los tres tipos de oferta engañosa, etiquetado y evaluación de 100 ofertas & Módulo de alertas con explicación y reporte de precisión & La precisión sobre las ofertas etiquetadas es de al menos 0,80 y cada alerta incluye los precios y las fechas que la justifican & Los falsos positivos podrían afectar la reputación de una cadena \\ \hline
+HU8 & Formulación del modelo de programación entera mixta, implementación con el perfil de medios de pago y validación contra búsqueda exhaustiva & Optimizador que devuelve el plan de compra con su costo y ahorro estimado & Responde en menos de 10 s para 30 productos, respeta topes y días de las promociones y coincide con el óptimo exhaustivo en casos pequeños & Los topes no informados en el histórico de promociones requieren un supuesto conservador \\ \hline
+HU11 & Generador de listas simuladas, backtest con la estrategia ingenua y reporte del ahorro con intervalos de confianza & Informe reproducible de evaluación del ahorro & Se evalúan al menos 200 listas, se informa el ahorro medio con su intervalo de confianza del 95\,\% y un único script regenera los resultados & La cobertura desigual de las promociones condiciona la interpretación (riesgo 2) \\ \hline
 \end{longtable}
 }
 
