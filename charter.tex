@@ -64,6 +64,8 @@ Revisión & \multicolumn{1}{c|}{\cellcolor[HTML]{C0C0C0}Detalles de los cambios 
 		  Se completa hasta el punto 9 inclusive                & 8 de noviembre de 2026 \\ \hline
 3      & Se incorporan las correcciones de la revisión 2 \newline
 		  Se completa hasta el punto 12 inclusive               & 14 de noviembre de 2026 \\ \hline
+4      & Se incorporan las correcciones de la revisión 3 \newline
+		  Se completa el plan                                   & 23 de noviembre de 2026 \\ \hline
 %2      & Se completa hasta el punto 9 inclusive
 %		  Se puede agregar algo más \newline
 %		  En distintas líneas \newline
@@ -138,7 +140,7 @@ La descripción funcional de cada bloque es la siguiente:
 \begin{itemize}
 	\item Fuentes de datos: archivos diarios de SEPA descargados de forma automática (en una máquina virtual en la nube, para no depender de la computadora personal), el histórico de precios de preciazo desde agosto de 2024, las promociones bancarias y de billeteras (un histórico reconstruido a partir de notas periodísticas desde agosto de 2024 y una carga manual mensual a partir de las publicaciones de las entidades) y un conjunto acotado de variables de contexto.
 	\item 1. Ingesta, validación y almacenamiento: limpieza, tratamiento de faltantes y detección de anomalías (por ejemplo, con Isolation Forest). Los datos se guardan en archivos Parquet y en una base PostgreSQL.
-	\item 2. Unificación de productos: identifica productos idénticos (por código EAN), del mismo elaborador (marcas propias, mediante el RNPA) y equivalentes (mediante \textit{embeddings} de Sentence-BERT y un clasificador de pares). La comparación se realiza siempre por kilogramo, litro o unidad.
+	\item 2. Unificación de productos: identifica productos idénticos (por código EAN), del mismo elaborador (marcas propias, mediante el RNPA) y equivalentes (mediante embeddings de Sentence-BERT y un clasificador de pares). La comparación se realiza siempre por kilogramo, litro o unidad.
 	\item 3. Pronóstico de precios y remarcación: estima cuándo y cuánto cambiará el precio de cada producto en cada sucursal, con intervalos de confianza.
 	\item 4. Detección de ofertas engañosas (versión acotada): identifica inflado previo del precio, precios anteriores inexistentes y descuentos menores a los anunciados.
 	\item 5. Optimizador: mediante programación entera mixta elige sucursal, día y medio de pago con menor costo esperado, respetando las promociones habilitadas por el perfil del usuario y sus topes.
@@ -196,7 +198,7 @@ El proyecto incluye:
 \begin{itemize}
 	\item Descarga diaria automatizada de los archivos de SEPA y su almacenamiento histórico, junto con la incorporación del histórico de preciazo.
 	\item Ingesta, limpieza y validación de los datos, con detección de anomalías.
-	\item Las sucursales de las cuatro cadenas principales de Paraná: Coto, Carrefour, ChangoMás (incluido HiperChangoMás) y DIA. El \textit{pipeline} se diseñará de forma genérica para facilitar la incorporación posterior de otras sucursales o cadenas.
+	\item Las sucursales de las cuatro cadenas principales de Paraná: Coto, Carrefour, ChangoMás (incluido HiperChangoMás) y DIA. El pipeline se diseñará de forma genérica para facilitar la incorporación posterior de otras sucursales o cadenas.
 	\item Unificación de productos con código de barras:
 		\begin{itemize}
 		\item Productos idénticos por código EAN.
@@ -205,12 +207,12 @@ El proyecto incluye:
 		\item Normalización del precio por kilogramo, litro o unidad.
 		\end{itemize}
 	\item Carga manual estructurada, con frecuencia mensual, de las promociones de las billeteras virtuales y los bancos con más promociones en esas cadenas, y de descuentos generales como los destinados a jubilados, junto con la incorporación de un histórico de promociones desde agosto de 2024, reconstruido a partir de notas periodísticas.
-	\item Modelos de pronóstico de precios y de remarcación con intervalos de confianza, comparados contra modelos de referencia (\textit{baselines}), usando un conjunto acotado de variables de contexto.
+	\item Modelos de pronóstico de precios y de remarcación con intervalos de confianza, comparados contra modelos de referencia (baselines), usando un conjunto acotado de variables de contexto.
 	\item Una versión acotada de la detección de ofertas engañosas, basada en criterios explícitos (inflado previo del precio, precio anterior inexistente y descuento menor al anunciado).
 	\item Optimizador que recomiende sucursal, día y medio de pago para una lista de compras y un perfil de medios de pago.
 	\item Consulta de conveniencia de un precio ofrecido fuera de las cadenas principales (por ejemplo, en un almacén), frente a los datos disponibles.
 	\item API y aplicación web simple de demostración.
-	\item Evaluación del sistema mediante \textit{backtest} sobre compras simuladas, con partición temporal (entrenamiento y validación de agosto de 2024 a marzo de 2026 y prueba de julio a septiembre de 2026, períodos definidos según la disponibilidad de datos), con el ahorro en pesos frente a una estrategia ingenua como métrica central y métricas específicas por módulo.
+	\item Evaluación del sistema mediante backtest sobre compras simuladas, con partición temporal (entrenamiento y validación de agosto de 2024 a marzo de 2026 y prueba de julio a septiembre de 2026, períodos definidos según la disponibilidad de datos), con el ahorro en pesos frente a una estrategia ingenua como métrica central y métricas específicas por módulo.
 	\item Documentación del código, memoria del trabajo final y defensa pública.
 \end{itemize}
 
@@ -220,7 +222,7 @@ Funcionalidades opcionales, que se incorporarán solo si el cronograma lo permit
 	\item Incorporación de otras sucursales o cadenas, además de las cuatro mencionadas en Paraná.
 	\item Incorporación de más variables macroeconómicas externas a los modelos de pronóstico.
 	\item Interfaz en lenguaje natural basada en un modelo de lenguaje.
-	\item \textit{Crawlers} para automatizar la carga de promociones bancarias y de billeteras.
+	\item Crawlers para automatizar la carga de promociones bancarias y de billeteras.
 	\item Caso de estudio de ofertas engañosas en electrodomésticos vendidos por las mismas cadenas en CyberMonday y Black Friday.
 	\item Recomendación de productos sustitutos y predicción de la próxima compra.
 	\item Cálculo de la distancia del usuario a cada sucursal para considerar el costo de traslado.
@@ -245,7 +247,7 @@ Para el desarrollo del presente proyecto se supone que:
 	\item El SEPA continuará publicando a diario los precios de las cadenas alcanzadas, con un formato similar al actual, y la normativa que obliga a las cadenas a informarlos seguirá vigente.
 	\item La descarga diaria automatizada funcionará sin interrupciones prolongadas y, ante fallas puntuales, el histórico de preciazo permitirá completar los faltantes.
 	\item Los precios informados al SEPA representan con razonable fidelidad los precios en góndola de las sucursales.
-	\item Las promociones bancarias y de billeteras seguirán publicándose en forma mensual y podrán cargarse manualmente en un tiempo acotado, sin necesidad de \textit{crawlers}.
+	\item Las promociones bancarias y de billeteras seguirán publicándose en forma mensual y podrán cargarse manualmente en un tiempo acotado, sin necesidad de crawlers.
 	\item Las notas periodísticas que difunden mensualmente las promociones vigentes permiten reconstruir con razonable fidelidad las promociones históricas, ya que las entidades no publican su historial.
 	\item Los huecos existentes en el histórico de precios y de promociones no se podrán recuperar, pero los períodos disponibles son suficientes para entrenar, validar y evaluar el sistema.
 	\item El autor dispondrá de aproximadamente 600 horas de trabajo entre octubre de 2026 y agosto de 2027, compatibles con su actividad laboral y con la cursada.
@@ -257,7 +259,7 @@ Para el desarrollo del presente proyecto se supone que:
 \section{6. Product Backlog}
 \label{sec:backlog}
 
-Para ponderar las historias de usuario se utilizan \textit{Story Points} (SP) en escala de Fibonacci (1, 2, 3, 5, 8, 13, 21, 34 y 55). El valor de cada historia combina tres factores: la complejidad técnica, la incertidumbre (cuánto se desconoce sobre cómo resolverla o sobre el comportamiento de los datos) y el volumen de trabajo. Como historia de referencia se toma la HU3 (carga de promociones), de baja complejidad e incertidumbre, a la que se asignan 8 SP. Como referencia de planificación, 1 SP equivale aproximadamente a 2 horas de trabajo; las historias del núcleo suman 246 SP, unas 490 horas técnicas, y las horas restantes del proyecto se destinan a planificación, documentación, redacción de la memoria y preparación de la defensa.
+Para ponderar las historias de usuario se utilizan Story Points (SP) en escala de Fibonacci (1, 2, 3, 5, 8, 13, 21, 34 y 55). El valor de cada historia combina tres factores: la complejidad técnica, la incertidumbre (cuánto se desconoce sobre cómo resolverla o sobre el comportamiento de los datos) y el volumen de trabajo. Como historia de referencia se toma la HU3 (carga de promociones), de baja complejidad e incertidumbre, a la que se asignan 8 SP. Como referencia de planificación, 1 SP equivale aproximadamente a 2 horas de trabajo; las historias del núcleo suman 246 SP, unas 490 horas técnicas, y las horas restantes del proyecto se destinan a planificación, documentación, redacción de la memoria y preparación de la defensa.
 
 La prioridad de cada historia se define con el siguiente criterio:
 
@@ -359,7 +361,7 @@ A continuación se detallan los criterios de aceptación de cada historia de usu
 		\end{itemize}
 		\item Criterios de aceptación de la HU13 (opcional):
 		\begin{itemize}
-			\item Un \textit{crawler} obtiene las promociones de al menos tres bancos o billeteras y las convierte al formato de la HU3.
+			\item Un crawler obtiene las promociones de al menos tres bancos o billeteras y las convierte al formato de la HU3.
 			\item Al comparar con la carga manual de un mes, al menos el 90\,\% de las promociones obtenidas coincide.
 			\item Si un cambio en un sitio impide la extracción, se registra el error y se conserva la última carga válida.
 		\end{itemize}
@@ -423,7 +425,7 @@ A continuación se detallan los criterios de aceptación de cada historia de usu
 			\item Se simulan al menos 200 listas de compras representativas, evaluadas sobre el período de prueba (julio a septiembre de 2026), que no se utiliza en el entrenamiento.
 			\item Se reporta el ahorro medio en pesos y en porcentaje frente a la estrategia ingenua (misma sucursal, día habitual y cualquier medio de pago), con su intervalo de confianza del 95\,\%.
 			\item El ahorro se calcula solo sobre fechas con datos de precios y se informa por separado para las cadenas y meses con cobertura completa de promociones. Cuando una promoción no informa su tope, se aplica un supuesto conservador documentado y se presenta un análisis de sensibilidad.
-			\item La evaluación es reproducible: un único \textit{script} con semilla fija regenera todos los resultados.
+			\item La evaluación es reproducible: un único script con semilla fija regenera todos los resultados.
 		\end{itemize}
 		\item Criterios de aceptación de la HU12 (opcional):
 		\begin{itemize}
@@ -441,7 +443,7 @@ El desarrollo del proyecto se organiza según las fases de la metodología CRISP
 
 \subsection{Comprensión del negocio}
 
-El objetivo es que un consumidor pague lo mínimo posible por su compra de supermercado, eligiendo sucursal, día y medio de pago, y que no sea engañado por ofertas falsas. La inteligencia artificial agrega valor en tres puntos que un comparador de precios del día no resuelve: anticipa cuándo y cuánto cambiará un precio, reconoce productos equivalentes aunque tengan descripciones distintas y distingue un descuento real de uno aparente. La métrica de éxito central es el ahorro en pesos, y en porcentaje, frente a la forma habitual de comprar (misma sucursal, día habitual y cualquier medio de pago), medido mediante \textit{backtest} sobre compras simuladas. Se complementa con métricas técnicas por módulo, definidas en la fase de evaluación.
+El objetivo es que un consumidor pague lo mínimo posible por su compra de supermercado, eligiendo sucursal, día y medio de pago, y que no sea engañado por ofertas falsas. La inteligencia artificial agrega valor en tres puntos que un comparador de precios del día no resuelve: anticipa cuándo y cuánto cambiará un precio, reconoce productos equivalentes aunque tengan descripciones distintas y distingue un descuento real de uno aparente. La métrica de éxito central es el ahorro en pesos, y en porcentaje, frente a la forma habitual de comprar (misma sucursal, día habitual y cualquier medio de pago), medido mediante backtest sobre compras simuladas. Se complementa con métricas técnicas por módulo, definidas en la fase de evaluación.
 
 \subsection{Comprensión de los datos}
 
@@ -451,16 +453,16 @@ En cuanto a la calidad, el relevamiento inicial de los archivos mostró variante
 
 \subsection{Preparación de los datos}
 
-Las transformaciones necesarias son la validación de esquema y de códigos EAN, la eliminación de duplicados, la normalización de unidades (precio por kilogramo, litro o unidad), la unificación de productos y la construcción de series diarias por producto y sucursal, con imputación de los huecos de hasta cinco días mediante el último precio observado, marcando los valores imputados. Los huecos mayores no se imputan: las series se cortan y los modelos utilizan características que toleran la falta de datos, como los días transcurridos desde la última observación. Las características clave para el pronóstico son los precios rezagados, los días transcurridos desde la última remarcación, la frecuencia histórica de remarcación del producto y de la cadena, el día de la semana, el mes, la inflación mensual, las fechas de eventos comerciales y las promociones vigentes. Para la unificación se generan \textit{embeddings} de las descripciones con Sentence-BERT y características de similitud entre pares. Los datos se particionan en forma temporal, teniendo en cuenta los huecos: entrenamiento del 19 de agosto de 2024 al 30 de noviembre de 2025, validación del 1 de diciembre de 2025 al 17 de marzo de 2026 (período con buena cobertura de promociones para las cuatro cadenas) y prueba del 1 de julio al 22 de septiembre de 2026. Como la prueba comienza después del hueco de 105 días, sus primeras dos semanas se utilizan como período de arranque, para reconstruir la historia reciente de cada serie, y no se incluyen en las métricas.
+Las transformaciones necesarias son la validación de esquema y de códigos EAN, la eliminación de duplicados, la normalización de unidades (precio por kilogramo, litro o unidad), la unificación de productos y la construcción de series diarias por producto y sucursal, con imputación de los huecos de hasta cinco días mediante el último precio observado, marcando los valores imputados. Los huecos mayores no se imputan: las series se cortan y los modelos utilizan características que toleran la falta de datos, como los días transcurridos desde la última observación. Las características clave para el pronóstico son los precios rezagados, los días transcurridos desde la última remarcación, la frecuencia histórica de remarcación del producto y de la cadena, el día de la semana, el mes, la inflación mensual, las fechas de eventos comerciales y las promociones vigentes. Para la unificación se generan embeddings de las descripciones con Sentence-BERT y características de similitud entre pares. Los datos se particionan en forma temporal, teniendo en cuenta los huecos: entrenamiento del 19 de agosto de 2024 al 30 de noviembre de 2025, validación del 1 de diciembre de 2025 al 17 de marzo de 2026 (período con buena cobertura de promociones para las cuatro cadenas) y prueba del 1 de julio al 22 de septiembre de 2026. Como la prueba comienza después del hueco de 105 días, sus primeras dos semanas se utilizan como período de arranque, para reconstruir la historia reciente de cada serie, y no se incluyen en las métricas.
 
 \subsection{Modelado}
 
 El proyecto combina varios tipos de problema:
 
 \begin{itemize}
-	\item Pronóstico de series temporales con intervalos de confianza (precio esperado a 7 y 14 días): líneas de base ingenuas y estacionales, modelos estadísticos como ETS y modelos de \textit{gradient boosting} (por ejemplo, LightGBM) con regresión por cuantiles.
-	\item Clasificación binaria de la remarcación (si el precio cambiará en los próximos 7 días): regresión logística y \textit{gradient boosting}.
-	\item Clasificación de pares de productos equivalentes: similitud coseno entre \textit{embeddings} de Sentence-BERT como línea de base y un clasificador entrenado sobre características de similitud.
+	\item Pronóstico de series temporales con intervalos de confianza (precio esperado a 7 y 14 días): líneas de base ingenuas y estacionales, modelos estadísticos como ETS y modelos de gradient boosting (por ejemplo, LightGBM) con regresión por cuantiles.
+	\item Clasificación binaria de la remarcación (si el precio cambiará en los próximos 7 días): regresión logística y gradient boosting.
+	\item Clasificación de pares de productos equivalentes: similitud coseno entre embeddings de Sentence-BERT como línea de base y un clasificador entrenado sobre características de similitud.
 	\item Detección de anomalías no supervisada en los precios: Isolation Forest combinado con reglas de variación.
 	\item Detección de ofertas engañosas: reglas explícitas basadas en el precio de referencia de los 30 días previos.
 	\item Optimización de la compra: programación entera mixta, con solucionadores de código abierto como OR-Tools o PuLP.
@@ -468,7 +470,7 @@ El proyecto combina varios tipos de problema:
 
 \subsection{Evaluación del modelo}
 
-Cada módulo se evalúa con métricas específicas: para el pronóstico, el error absoluto medio en pesos, el MAPE, la pérdida por cuantiles y la cobertura empírica de los intervalos; para la remarcación, el área bajo la curva ROC y el F1; para la unificación de productos, la precisión, la exhaustividad y el F1 sobre pares etiquetados; y para las ofertas engañosas, la precisión sobre ofertas etiquetadas manualmente. Todos los modelos se comparan contra sus líneas de base. La evaluación integral del sistema es el ahorro en pesos frente a la estrategia ingenua, obtenido por \textit{backtest} sobre el período de prueba y reportado con su intervalo de confianza.
+Cada módulo se evalúa con métricas específicas: para el pronóstico, el error absoluto medio en pesos, el MAPE, la pérdida por cuantiles y la cobertura empírica de los intervalos; para la remarcación, el área bajo la curva ROC y el F1; para la unificación de productos, la precisión, la exhaustividad y el F1 sobre pares etiquetados; y para las ofertas engañosas, la precisión sobre ofertas etiquetadas manualmente. Todos los modelos se comparan contra sus líneas de base. La evaluación integral del sistema es el ahorro en pesos frente a la estrategia ingenua, obtenido por backtest sobre el período de prueba y reportado con su intervalo de confianza.
 
 \subsection{Despliegue del modelo}
 
@@ -490,7 +492,7 @@ HU & Tarea técnica & Estimación & Prioridad \\ \hline
 \rowcolor[HTML]{C0C0C0}
 HU & Tarea técnica & Estimación & Prioridad \\ \hline
 \endhead
-HU1 & Desarrollar el \textit{script} de descarga del archivo diario del SEPA y el filtrado de las sucursales de Paraná & 6 h & Alta \\ \hline
+HU1 & Desarrollar el script de descarga del archivo diario del SEPA y el filtrado de las sucursales de Paraná & 6 h & Alta \\ \hline
 HU1 & Configurar la máquina virtual con la tarea programada, los reintentos y el registro de errores & 5 h & Alta \\ \hline
 HU1 & Importar el histórico de preciazo a Parquet y PostgreSQL con el esquema unificado & 8 h & Alta \\ \hline
 HU2 & Implementar las reglas de validación de esquema y del dígito verificador del código EAN, con manejo de variantes de esquema y de codificación & 6 h & Alta \\ \hline
@@ -502,7 +504,7 @@ HU3 & Incorporar el histórico de promociones: conversión de días, eliminació
 HU4 & Crear la tabla de productos canónicos por código EAN & 4 h & Alta \\ \hline
 HU4 & Implementar el analizador de presentaciones y la normalización por kilogramo, litro o unidad, con pruebas automáticas & 8 h & Alta \\ \hline
 HU4 & Vincular las marcas propias de un mismo elaborador mediante el RNPA & 6 h & Media \\ \hline
-HU5 & Generar \textit{embeddings} con Sentence-BERT y pares candidatos por similitud & 6 h & Media \\ \hline
+HU5 & Generar embeddings con Sentence-BERT y pares candidatos por similitud & 6 h & Media \\ \hline
 HU5 & Etiquetar manualmente 500 pares de productos & 8 h & Media \\ \hline
 HU5 & Entrenar y evaluar el clasificador de pares frente al umbral de similitud & 8 h & Media \\ \hline
 HU6 & Construir las series por producto y sucursal y las líneas de base de pronóstico & 6 h & Alta \\ \hline
@@ -520,16 +522,18 @@ HU10 & Desarrollar la API con FastAPI y su documentación OpenAPI & 8 h & Media 
 HU10 & Desarrollar la aplicación web de demostración & 8 h & Media \\ \hline
 HU10 & Implementar las pruebas de punta a punta de los tres flujos principales & 4 h & Baja \\ \hline
 HU11 & Desarrollar el generador de listas de compras simuladas & 6 h & Alta \\ \hline
-HU11 & Implementar el \textit{backtest} con partición temporal y la estrategia ingenua & 8 h & Alta \\ \hline
+HU11 & Implementar el backtest con partición temporal y la estrategia ingenua & 8 h & Alta \\ \hline
 HU11 & Generar el reporte de ahorro con intervalos de confianza & 4 h & Alta \\ \hline
 \end{longtable}
 
 \section{10. Planificación de Sprints}
 \label{sec:sprints}
 
-El proyecto se organiza en trece sprints entre el 19 de octubre de 2026 y el 15 de agosto de 2027. El sprint 0 coincide con la cursada de Gestión de Proyectos y se dedica a la planificación. Los sprints 1 a 10 duran tres semanas cada uno y concentran el trabajo técnico, con una carga de entre 49 y 51 horas por sprint (unas 16 horas semanales). El sprint 11 se destina a la redacción de la memoria y el sprint 12, de dos semanas, a la preparación de la defensa.
+El proyecto se organiza en trece sprints entre el 19 de octubre de 2026 y el 15 de agosto de 2027. El sprint 0 coincide con la cursada de Gestión de Proyectos y se dedica a la planificación. Los sprints 1 a 11 duran tres semanas cada uno y el sprint 12, de dos semanas, se destina a la preparación de la defensa.
 
-La carga total es de 600 horas: 492 horas técnicas, que corresponden a los 246 SP de las historias del núcleo (1 SP $\approx$ 2 h), y 108 horas no técnicas (40 de planificación, 50 de redacción de la memoria y 18 de preparación de la defensa). Las historias que abarcan más de un sprint se dividen entre sprints consecutivos. Las historias opcionales (HU12 y HU13) no se incluyen en la planificación y se abordarán solo si alguno de los sprints termina antes de lo previsto. El responsable de todas las tareas es el autor, y el porcentaje completado se actualiza durante el seguimiento del proyecto.
+El desarrollo técnico de los módulos se concentra en los sprints 1 a 9, de modo que termine el 20 de junio de 2027, unos dos meses antes de la defensa. La redacción de la memoria se realiza mientras se cursan el Taller de Trabajo Final A y el Taller de Trabajo Final B, que se extienden aproximadamente entre abril y agosto de 2027: comienza en el sprint 7, en paralelo con el desarrollo, continúa en el sprint 10 junto con la evaluación integral del sistema (HU11) y se completa en el sprint 11. Así, la carga se mantiene entre 50 y 54 horas por sprint (de 17 a 18 horas semanales) durante el desarrollo y disminuye en los sprints finales.
+
+La carga total es de 600 horas: 492 horas técnicas, que corresponden a los 246 SP de las historias del núcleo (1 SP $\approx$ 2 h), y 108 horas no técnicas (40 de planificación, 50 de redacción de la memoria y 18 de preparación de la defensa). Las historias que abarcan más de un sprint se dividen entre sprints consecutivos. Las historias opcionales (HU12 y HU13) no se incluyen en la planificación y se abordarán solo si alguno de los sprints termina antes de lo previsto. El responsable de todas las tareas es el autor y el porcentaje completado se actualiza durante el seguimiento del proyecto.
 
 \begin{longtable}{@{}|p{1.3cm}|p{2.2cm}|p{6.2cm}|c|c|c|@{}}
 \caption{Planificación de las tareas en sprints.}
@@ -543,29 +547,32 @@ Sprint & HU o fase & Tarea & Horas & Resp. & \% \\ \hline
 Sprint & HU o fase & Tarea & Horas & Resp. & \% \\ \hline
 \endhead
 Sprint 0 & Planificación & Redacción del plan de proyecto, secciones 1 a 9 & 20 h & Autor & 100\,\% \\ \hline
-Sprint 0 & Planificación & Redacción del plan de proyecto, secciones 10 a 15, y ajustes finales & 14 h & Autor & 30\,\% \\ \hline
-Sprint 0 & Planificación & Reuniones con el director y con la coordinación académica & 6 h & Autor & 50\,\% \\ \hline
-Sprint 1 & HU1 & \textit{Script} de descarga diaria, tarea programada e importación del histórico de preciazo & 26 h & Autor & 0\,\% \\ \hline
+Sprint 0 & Planificación & Redacción del plan de proyecto, secciones 10 a 15, y ajustes finales & 14 h & Autor & 70\,\% \\ \hline
+Sprint 0 & Planificación & Reuniones con el director y con la coordinación académica & 6 h & Autor & 60\,\% \\ \hline
+Sprint 1 & HU1 & Script de descarga diaria, tarea programada e importación del histórico de preciazo & 26 h & Autor & 0\,\% \\ \hline
 Sprint 1 & HU3 & Esquema de promociones, validador e incorporación del histórico de promociones & 16 h & Autor & 0\,\% \\ \hline
-Sprint 1 & HU2 & Reglas de validación de esquema y del código EAN & 7 h & Autor & 0\,\% \\ \hline
-Sprint 2 & HU2 & Detección de anomalías y reporte diario de calidad & 19 h & Autor & 0\,\% \\ \hline
-Sprint 2 & HU4 & Tabla de productos canónicos y normalización por unidad de medida & 30 h & Autor & 0\,\% \\ \hline
-Sprint 3 & HU4 & Vinculación de marcas propias mediante el RNPA y pruebas & 12 h & Autor & 0\,\% \\ \hline
-Sprint 3 & HU5 & \textit{Embeddings}, pares candidatos y etiquetado de 500 pares & 37 h & Autor & 0\,\% \\ \hline
-Sprint 4 & HU5 & Entrenamiento y evaluación del clasificador de pares y búsqueda de equivalentes & 31 h & Autor & 0\,\% \\ \hline
-Sprint 4 & HU6 & Construcción de las series y de las líneas de base & 18 h & Autor & 0\,\% \\ \hline
-Sprint 5 & HU6 & Modelo de pronóstico con regresión por cuantiles & 49 h & Autor & 0\,\% \\ \hline
-Sprint 6 & HU6 & Modelo de remarcación y evaluación integral del pronóstico & 43 h & Autor & 0\,\% \\ \hline
-Sprint 6 & HU7 & Cálculo del precio de referencia de los 30 días previos & 6 h & Autor & 0\,\% \\ \hline
-Sprint 7 & HU7 & Reglas de ofertas engañosas, etiquetado de 100 ofertas y evaluación & 36 h & Autor & 0\,\% \\ \hline
-Sprint 7 & HU8 & Formulación del modelo de programación entera mixta & 13 h & Autor & 0\,\% \\ \hline
-Sprint 8 & HU8 & Implementación del optimizador con el perfil de medios de pago & 49 h & Autor & 0\,\% \\ \hline
-Sprint 9 & HU8 & Validación del optimizador contra búsqueda exhaustiva & 6 h & Autor & 0\,\% \\ \hline
-Sprint 9 & HU9 & Precio de referencia y servicio de veredicto para precios externos & 10 h & Autor & 0\,\% \\ \hline
-Sprint 9 & HU10 & API con FastAPI y aplicación web de demostración & 33 h & Autor & 0\,\% \\ \hline
-Sprint 10 & HU10 & Pruebas de punta a punta y ajustes de la aplicación & 9 h & Autor & 0\,\% \\ \hline
-Sprint 10 & HU11 & Generador de listas simuladas, \textit{backtest} y reporte de ahorro & 42 h & Autor & 0\,\% \\ \hline
-Sprint 11 & Escritura & Redacción de la memoria del trabajo final & 50 h & Autor & 0\,\% \\ \hline
+Sprint 1 & HU2 & Reglas de validación de esquema y del código EAN & 8 h & Autor & 0\,\% \\ \hline
+Sprint 2 & HU2 & Detección de anomalías y reporte diario de calidad & 18 h & Autor & 0\,\% \\ \hline
+Sprint 2 & HU4 & Tabla de productos canónicos y normalización por unidad de medida & 32 h & Autor & 0\,\% \\ \hline
+Sprint 3 & HU4 & Vinculación de marcas propias mediante el RNPA y pruebas & 10 h & Autor & 0\,\% \\ \hline
+Sprint 3 & HU5 & Embeddings, pares candidatos y etiquetado de 500 pares & 40 h & Autor & 0\,\% \\ \hline
+Sprint 4 & HU5 & Entrenamiento y evaluación del clasificador de pares y búsqueda de equivalentes & 28 h & Autor & 0\,\% \\ \hline
+Sprint 4 & HU6 & Construcción de las series y de las líneas de base & 22 h & Autor & 0\,\% \\ \hline
+Sprint 5 & HU6 & Modelo de pronóstico con regresión por cuantiles & 50 h & Autor & 0\,\% \\ \hline
+Sprint 6 & HU6 & Modelo de remarcación y evaluación integral del pronóstico & 38 h & Autor & 0\,\% \\ \hline
+Sprint 6 & HU7 & Cálculo del precio de referencia de los 30 días previos & 12 h & Autor & 0\,\% \\ \hline
+Sprint 7 & HU7 & Reglas de ofertas engañosas, etiquetado de 100 ofertas y evaluación & 30 h & Autor & 0\,\% \\ \hline
+Sprint 7 & HU8 & Formulación del modelo de programación entera mixta & 20 h & Autor & 0\,\% \\ \hline
+Sprint 7 & Memoria & Estructura de la memoria y redacción de los capítulos introductorios & 4 h & Autor & 0\,\% \\ \hline
+Sprint 8 & HU8 & Implementación del optimizador con el perfil de medios de pago & 40 h & Autor & 0\,\% \\ \hline
+Sprint 8 & HU9 & Precio de referencia y servicio de veredicto para precios externos & 10 h & Autor & 0\,\% \\ \hline
+Sprint 8 & Memoria & Redacción del capítulo de datos y de su preparación & 4 h & Autor & 0\,\% \\ \hline
+Sprint 9 & HU8 & Validación del optimizador contra búsqueda exhaustiva & 8 h & Autor & 0\,\% \\ \hline
+Sprint 9 & HU10 & API con FastAPI, aplicación web de demostración y pruebas de punta a punta & 42 h & Autor & 0\,\% \\ \hline
+Sprint 9 & Memoria & Redacción de los capítulos de los módulos desarrollados & 4 h & Autor & 0\,\% \\ \hline
+Sprint 10 & HU11 & Generador de listas simuladas, backtest y reporte de ahorro & 42 h & Autor & 0\,\% \\ \hline
+Sprint 10 & Memoria & Redacción del capítulo de resultados & 8 h & Autor & 0\,\% \\ \hline
+Sprint 11 & Memoria & Redacción de las conclusiones, revisión integral e incorporación de las correcciones del director & 30 h & Autor & 0\,\% \\ \hline
 Sprint 12 & Defensa & Preparación de la presentación y ensayos de la defensa & 18 h & Autor & 0\,\% \\ \hline
 \multicolumn{3}{|l|}{Total} & 600 h & & \\ \hline
 \end{longtable}
@@ -585,23 +592,23 @@ En el cuadro \ref{tab:cronograma} se presentan las fechas, la carga horaria y el
 \rowcolor[HTML]{C0C0C0}
 Sprint & Inicio & Fin & Horas & Contenido \\ \hline
 Sprint 0 & 19/10/2026 & 13/12/2026 & 40 h & Planificación (no técnico) \\ \hline
-Sprint 1 & 14/12/2026 & 03/01/2027 & 49 h & HU1, HU3 y HU2 \\ \hline
-Sprint 2 & 04/01/2027 & 24/01/2027 & 49 h & HU2 y HU4 \\ \hline
-Sprint 3 & 25/01/2027 & 14/02/2027 & 49 h & HU4 y HU5 \\ \hline
-Sprint 4 & 15/02/2027 & 07/03/2027 & 49 h & HU5 y HU6 \\ \hline
-Sprint 5 & 08/03/2027 & 28/03/2027 & 49 h & HU6 \\ \hline
-Sprint 6 & 29/03/2027 & 18/04/2027 & 49 h & HU6 y HU7 \\ \hline
-Sprint 7 & 19/04/2027 & 09/05/2027 & 49 h & HU7 y HU8 \\ \hline
-Sprint 8 & 10/05/2027 & 30/05/2027 & 49 h & HU8 \\ \hline
-Sprint 9 & 31/05/2027 & 20/06/2027 & 49 h & HU8, HU9 y HU10 \\ \hline
-Sprint 10 & 21/06/2027 & 11/07/2027 & 51 h & HU10 y HU11 \\ \hline
-Sprint 11 & 12/07/2027 & 01/08/2027 & 50 h & Redacción de la memoria (no técnico) \\ \hline
+Sprint 1 & 14/12/2026 & 03/01/2027 & 50 h & HU1, HU3 y HU2 \\ \hline
+Sprint 2 & 04/01/2027 & 24/01/2027 & 50 h & HU2 y HU4 \\ \hline
+Sprint 3 & 25/01/2027 & 14/02/2027 & 50 h & HU4 y HU5 \\ \hline
+Sprint 4 & 15/02/2027 & 07/03/2027 & 50 h & HU5 y HU6 \\ \hline
+Sprint 5 & 08/03/2027 & 28/03/2027 & 50 h & HU6 \\ \hline
+Sprint 6 & 29/03/2027 & 18/04/2027 & 50 h & HU6 y HU7 \\ \hline
+Sprint 7 & 19/04/2027 & 09/05/2027 & 54 h & HU7 y HU8; inicio de la memoria \\ \hline
+Sprint 8 & 10/05/2027 & 30/05/2027 & 54 h & HU8 y HU9; memoria \\ \hline
+Sprint 9 & 31/05/2027 & 20/06/2027 & 54 h & HU8 y HU10; memoria \\ \hline
+Sprint 10 & 21/06/2027 & 11/07/2027 & 50 h & HU11; memoria \\ \hline
+Sprint 11 & 12/07/2027 & 01/08/2027 & 30 h & Cierre de la memoria (no técnico) \\ \hline
 Sprint 12 & 02/08/2027 & 15/08/2027 & 18 h & Preparación de la defensa (no técnico) \\ \hline
 \multicolumn{3}{|l|}{Total} & 600 h & \\ \hline
 \end{tabularx}
 \end{table}
 
-En el diagrama, las barras azules corresponden a los sprints con tareas técnicas derivadas de historias de usuario y las barras naranjas, a los sprints no técnicos (planificación, redacción de la memoria y defensa). Los rombos indican los hitos: la aprobación del plan, la finalización de la memoria y la defensa pública.
+En el diagrama, las barras azules corresponden a los sprints con tareas técnicas derivadas de historias de usuario y las barras naranjas, a las actividades no técnicas: la planificación, la redacción de la memoria y la preparación de la defensa. La barra de redacción de la memoria abarca los sprints 7 a 11, que coinciden con el cursado del Taller de Trabajo Final A y del Taller de Trabajo Final B. Los rombos indican los hitos: la aprobación del plan, el fin del desarrollo técnico, la finalización de la memoria y la defensa pública.
 
 \begin{figure}[H]
 \centering
@@ -636,10 +643,12 @@ En el diagrama, las barras azules corresponden a los sprints con tareas técnica
 \ganttbar{Sprint 5: HU6}{2027-03-08}{2027-03-28} \\
 \ganttbar{Sprint 6: HU6, HU7}{2027-03-29}{2027-04-18} \\
 \ganttbar{Sprint 7: HU7, HU8}{2027-04-19}{2027-05-09} \\
-\ganttbar{Sprint 8: HU8}{2027-05-10}{2027-05-30} \\
-\ganttbar{Sprint 9: HU8, HU9, HU10}{2027-05-31}{2027-06-20} \\
-\ganttbar{Sprint 10: HU10, HU11}{2027-06-21}{2027-07-11} \\
-\ganttbar[bar/.append style={fill=orange!60, draw=orange!70!black}]{Sprint 11: memoria}{2027-07-12}{2027-08-01} \\
+\ganttbar{Sprint 8: HU8, HU9}{2027-05-10}{2027-05-30} \\
+\ganttbar{Sprint 9: HU8, HU10}{2027-05-31}{2027-06-20} \\
+\ganttmilestone{Fin del desarrollo técnico}{2027-06-20} \\
+\ganttbar{Sprint 10: HU11}{2027-06-21}{2027-07-11} \\
+\ganttbar[bar/.append style={fill=orange!60, draw=orange!70!black}]{Sprint 11: cierre de la memoria}{2027-07-12}{2027-08-01} \\
+\ganttbar[bar/.append style={fill=orange!60, draw=orange!70!black}]{Redacción de la memoria (talleres A y B)}{2027-04-19}{2027-08-01} \\
 \ganttmilestone{Memoria finalizada}{2027-08-01} \\
 \ganttbar[bar/.append style={fill=orange!60, draw=orange!70!black}]{Sprint 12: defensa}{2027-08-02}{2027-08-15} \\
 \ganttmilestone{Defensa pública}{2027-08-16}
@@ -659,9 +668,9 @@ En esta sección se analizan el marco normativo aplicable a los datos y a las he
 Los datos que utiliza el proyecto y sus condiciones de uso son los siguientes:
 
 \begin{itemize}
-	\item Precios del SEPA: son datos abiertos publicados por el Estado nacional bajo licencia CC BY 4.0, que permite su uso, procesamiento y redistribución con la única condición de citar la fuente. Contienen información de empresas y de productos, no de personas, por lo que no están alcanzados por la Ley 25.326 de Protección de Datos Personales.
+	\item Precios del SEPA: son datos abiertos publicados por el Estado nacional bajo licencia CC BY 4.0, que permite su uso, procesamiento y redistribución, incluso con fines comerciales, con la condición de dar crédito a la fuente e indicar si los datos fueron modificados. Contienen información de empresas y de productos, no de personas, por lo que no están alcanzados por la Ley 25.326 de Protección de Datos Personales.
 	\item Histórico de precios de preciazo: es una recopilación de terceros de los mismos archivos diarios publicados por el SEPA, sin modificaciones. En las fechas superpuestas con las descargas propias se verificó que los archivos son idénticos a los oficiales, por lo que rige la licencia CC BY 4.0 de origen. En la memoria se citarán tanto el SEPA como fuente original como preciazo como fuente de la recopilación.
-	\item Histórico de promociones bancarias y de billeteras virtuales: se reconstruye a partir de notas periodísticas de acceso público, ya que ni el SEPA ni las entidades publican su historial. Se utilizan solo los datos fácticos de cada promoción (cadena, días, entidad, porcentaje, tope y condiciones), sin reproducir los textos, y cada registro conserva el enlace a la nota de origen y un nivel de confianza. Como no se trata de fuentes oficiales, esta limitación se explicita al reportar los resultados.
+	\item Histórico de promociones bancarias y de billeteras virtuales: se reconstruye a partir de notas periodísticas de acceso público, ya que ni el SEPA ni las entidades publican su historial. Se utilizan solo los datos fácticos de cada promoción (cadena, días, entidad, porcentaje, tope y condiciones), que no están protegidos por la Ley 11.723 de Propiedad Intelectual, sin reproducir los textos de las notas, y cada registro conserva el enlace a la nota de origen y un nivel de confianza. Como no se trata de fuentes oficiales, esta limitación se explicita al reportar los resultados.
 	\item Promociones vigentes: se cargan mensualmente a partir de la información que las propias entidades publican en sus sitios y medios oficiales. No incluyen datos personales.
 	\item Tickets de compra propios del autor: se utilizan solo para contrastar los descuentos efectivamente aplicados con los calculados por el sistema. Antes de incluir cualquier ticket en la memoria se ocultan los datos que identifiquen al titular o a sus medios de pago.
 	\item RNPA y variables de contexto (índice de precios al consumidor del INDEC, feriados y fechas de eventos comerciales): son datos públicos, cuya fuente se citará en la memoria.
@@ -672,7 +681,7 @@ En cuanto a las herramientas, se utilizan bibliotecas y sistemas de código abie
 
 Respecto de la detección de ofertas engañosas, la Ley 24.240 de Defensa del Consumidor exige que la información brindada a los consumidores sea cierta y clara, y la normativa de lealtad comercial prohíbe la publicidad que induzca a error. El sistema no determina si una cadena incumplió la ley: las alertas son indicadores basados en criterios explícitos y reproducibles, inspirados en la Directiva Ómnibus de la Unión Europea, que se utiliza solo como referencia metodológica porque no rige en la Argentina. Por eso, las alertas se presentan como ``posible oferta engañosa'', acompañadas de los precios y las fechas que las justifican.
 
-Para garantizar la trazabilidad, se conserva cada archivo original descargado junto con su fecha de descarga y su huella digital (\textit{hash}), se registra el origen de cada dato en la base, se versionan el código y los conjuntos de datos derivados, y se registran con MLflow los datos y parámetros de cada modelo entrenado. Con estas medidas, el proyecto es viable desde el punto de vista legal.
+Para garantizar la trazabilidad, se conserva cada archivo original descargado junto con su fecha de descarga y su huella digital (hash), se registra el origen de cada dato en la base, se versionan el código y los conjuntos de datos derivados, y se registran con MLflow los datos y parámetros de cada modelo entrenado. Con estas medidas, el proyecto es viable desde el punto de vista legal.
 
 \subsection{Ética en el uso de inteligencia artificial}
 
@@ -680,7 +689,7 @@ Se identifican los siguientes sesgos posibles en los datos y en los modelos:
 
 \begin{itemize}
 	\item Sesgo de cobertura: el SEPA solo incluye a las cadenas obligadas a informar, y el trabajo se limita a cuatro cadenas de Paraná y a productos con código de barras. Las recomendaciones podrían favorecer a las grandes cadenas frente a los comercios de cercanía, que no figuran en los datos. La consulta de precios externos atenúa parcialmente este sesgo.
-	\item Sesgo de reconstrucción de las promociones: el histórico de promociones proviene de notas periodísticas, que cubren mejor a los bancos y billeteras de mayor alcance y a algunas cadenas y meses que a otros; en particular, ChangoMás y DIA tienen poca cobertura antes de diciembre de 2025 y cerca de un tercio de las promociones no informa su tope. Esto podría subestimar o sobrestimar el ahorro en el \textit{backtest}. Se mitiga evaluando el sistema por separado según el nivel de confianza y la cobertura de las promociones, con un análisis de sensibilidad sobre los topes no informados y contrastando los descuentos con tickets de compra reales.
+	\item Sesgo de reconstrucción de las promociones: el histórico de promociones proviene de notas periodísticas, que cubren mejor a los bancos y billeteras de mayor alcance y a algunas cadenas y meses que a otros; en particular, ChangoMás y DIA tienen poca cobertura antes de diciembre de 2025 y cerca de un tercio de las promociones no informa su tope. Esto podría subestimar o sobrestimar el ahorro en el backtest. Se mitiga evaluando el sistema por separado según el nivel de confianza y la cobertura de las promociones, con un análisis de sensibilidad sobre los topes no informados y contrastando los descuentos con tickets de compra reales.
 	\item Sesgo socioeconómico: buena parte del ahorro proviene de promociones bancarias y de billeteras virtuales, por lo que las personas sin acceso a esos medios de pago obtendrían un beneficio menor. Para mitigarlo, el sistema también calcula el mejor plan con efectivo o débito sin promociones e informa el ahorro alcanzable en cada caso.
 	\item Sesgo temporal: los modelos aprenden del comportamiento de los precios en un período determinado, y un cambio en el contexto macroeconómico podría reducir su precisión. Se mitiga con el reentrenamiento periódico y con el seguimiento del error de pronóstico.
 	\item Sesgo de lenguaje: los modelos preentrenados de Sentence-BERT podrían representar peor las descripciones abreviadas o regionales de los productos en español, lo que generaría errores de unificación. Se mitiga con modelos multilingües, con el etiquetado de pares propios y con la evaluación del clasificador sobre datos locales.
@@ -701,160 +710,146 @@ Como reflexión general, el proyecto busca reducir la asimetría de información
 \section{13. Gestión de riesgos}
 \label{sec:riesgos}
 
-\begin{consigna}{red}
-a) Identificación de los riesgos (al menos cinco) y estimación de sus consecuencias:
- 
-Riesgo 1: detallar el riesgo (riesgo es algo que si ocurre altera los planes previstos de forma negativa)
-\begin{itemize}
-	\item Severidad (S): mientras más severo, más alto es el número (usar números del 1 al 10).\\
-	Justificar el motivo por el cual se asigna determinado número de severidad (S).
-	\item Probabilidad de ocurrencia (O): mientras más probable, más alto es el número (usar del 1 al 10).\\
-	Justificar el motivo por el cual se asigna determinado número de (O). 
-\end{itemize}   
+a) Identificación de los riesgos y estimación de sus consecuencias:
 
-Riesgo 2:
+Riesgo 1: interrupción o pérdida de la descarga diaria de los datos del SEPA, por una falla del proceso, un cambio de formato o una discontinuidad del portal.
 \begin{itemize}
-	\item Severidad (S): X.\\
-	Justificación...
-	\item Ocurrencia (O): Y.\\
-	Justificación...
+	\item Severidad (S): 8, porque si faltan días, la serie de precios queda incompleta y, como el portal solo conserva los últimos siete días, no hay una vía oficial para recuperarlos.
+	\item Ocurrencia (O): 4, porque el proceso de descarga ya recupera automáticamente las fechas faltantes de la última semana y existe una fuente de respaldo, pero ya se registraron huecos.
 \end{itemize}
 
-Riesgo 3:
+Riesgo 2: cobertura o calidad insuficiente del histórico de promociones bancarias y de billeteras.
 \begin{itemize}
-	\item Severidad (S):  X.\\
-	Justificación...
-	\item Ocurrencia (O): Y.\\
-	Justificación...
+	\item Severidad (S): 7, porque afecta directamente la estimación del ahorro, que es la métrica central de la evaluación del sistema.
+	\item Ocurrencia (O): 7, porque ya se observó que 25 de las 112 combinaciones de cadena y mes no tienen información y que cerca de un tercio de las promociones no informa su tope.
 \end{itemize}
 
+Riesgo 3: los modelos de pronóstico no superan a la línea de base ingenua.
+\begin{itemize}
+	\item Severidad (S): 6, porque reduce el valor del pronóstico como ayuda para decidir cuándo comprar, aunque el optimizador puede seguir funcionando con la línea de base.
+	\item Ocurrencia (O): 6, porque los precios de supermercado cambian por saltos poco frecuentes, por lo que el último precio observado es una línea de base difícil de superar.
+\end{itemize}
 
-b) Tabla de gestión de riesgos:      (El RPN se calcula como RPN=SxO)
+Riesgo 4: falta de disponibilidad horaria del autor para cumplir con la carga prevista.
+\begin{itemize}
+	\item Severidad (S): 7, porque provocaría retrasos acumulados en los sprints y podría comprometer la fecha de la defensa.
+	\item Ocurrencia (O): 6, porque el proyecto es individual y se desarrolla con dedicación parcial durante diez meses, en paralelo con la actividad laboral y la cursada.
+\end{itemize}
 
-\begin{table}[htpb]
+Riesgo 5: errores en la unificación de productos equivalentes.
+\begin{itemize}
+	\item Severidad (S): 6, porque generaría comparaciones de precios entre productos que no son equivalentes y recomendaciones incorrectas.
+	\item Ocurrencia (O): 5, porque las descripciones de los productos son heterogéneas y abreviadas, aunque el uso del código EAN resuelve la mayoría de los casos.
+\end{itemize}
+
+Riesgo 6: pérdida de los datos históricos almacenados.
+\begin{itemize}
+	\item Severidad (S): 9, porque el histórico de unos 40 GB no puede volver a descargarse del portal oficial y su pérdida impediría entrenar y evaluar los modelos.
+	\item Ocurrencia (O): 3, porque es un evento poco frecuente si se mantienen copias de respaldo en más de una ubicación.
+\end{itemize}
+
+Riesgo 7: demora en la definición de la infraestructura en la nube o costos mayores a los previstos.
+\begin{itemize}
+	\item Severidad (S): 5, porque retrasaría la automatización de la ingesta y podría requerir gastos no presupuestados.
+	\item Ocurrencia (O): 5, porque la arquitectura todavía no está definida y el volumen de datos crece unos 10 GB por mes.
+\end{itemize}
+
+b) Tabla de gestión de riesgos (el RPN se calcula como RPN = S $\times$ O):
+
+\begin{table}[H]
 \centering
+\caption{Gestión de riesgos.}
+\label{tab:riesgos}
 \begin{tabularx}{\linewidth}{@{}|X|c|c|c|c|c|c|@{}}
 \hline
-\rowcolor[HTML]{C0C0C0} 
+\rowcolor[HTML]{C0C0C0}
 Riesgo & S & O & RPN & S* & O* & RPN* \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-       &   &   &     &    &    &      \\ \hline
-\end{tabularx}%
+1. Interrupción o pérdida de la descarga diaria de los datos del SEPA & 8 & 4 & 32 & 5 & 2 & 10 \\ \hline
+2. Cobertura o calidad insuficiente del histórico de promociones bancarias y de billeteras & 7 & 7 & 49 & 5 & 5 & 25 \\ \hline
+3. Los modelos de pronóstico no superan a la línea de base ingenua & 6 & 6 & 36 & 4 & 5 & 20 \\ \hline
+4. Falta de disponibilidad horaria del autor para cumplir con la carga prevista & 7 & 6 & 42 & 5 & 4 & 20 \\ \hline
+5. Errores en la unificación de productos equivalentes & 6 & 5 & 30 & - & - & - \\ \hline
+6. Pérdida de los datos históricos almacenados & 9 & 3 & 27 & - & - & - \\ \hline
+7. Demora en la definición de la infraestructura en la nube o costos mayores a los previstos & 5 & 5 & 25 & - & - & - \\ \hline
+\end{tabularx}
 \end{table}
 
-Criterio adoptado: 
-
-Se tomarán medidas de mitigación en los riesgos cuyos números de RPN sean mayores a...
-
-Nota: los valores marcados con (*) en la tabla corresponden luego de haber aplicado la mitigación.
+Criterio adoptado: se tomarán medidas de mitigación en los riesgos cuyo RPN sea mayor que 30. Los valores marcados con (*) corresponden a la situación luego de aplicar la mitigación.
 
 c) Plan de mitigación de los riesgos que originalmente excedían el RPN máximo establecido:
- 
-Riesgo 1: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
-  Nueva asignación de S y O, con su respectiva justificación:
-  \begin{itemize}
-	\item Severidad (S*): mientras más severo, más alto es el número (usar números del 1 al 10).
-          Justificar el motivo por el cual se asigna determinado número de severidad (S).
-	\item Probabilidad de ocurrencia (O*): mientras más probable, más alto es el número (usar del 1 al 10).
-          Justificar el motivo por el cual se asigna determinado número de (O).
-	\end{itemize}
 
-Riesgo 2: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
- 
-Riesgo 3: plan de mitigación (si por el RPN fuera necesario elaborar un plan de mitigación).
+Riesgo 1: Se configuran alertas automáticas ante fallas, se verifica a diario el inventario de fechas descargadas, el proceso se ejecuta en dos horarios por día y se utiliza el histórico de preciazo como fuente de respaldo para completar los días faltantes.
+\begin{itemize}
+	\item Severidad (S*): 5, porque la fuente de respaldo permite completar la mayoría de los días perdidos.
+	\item Ocurrencia (O*): 2, porque las alertas y la ejecución redundante permiten actuar dentro de la ventana de siete días del portal.
+\end{itemize}
 
-\end{consigna}
+Riesgo 2: Se incorporan mensualmente las promociones vigentes a partir de las fuentes oficiales, se evalúa el sistema por separado según la cobertura y el nivel de confianza de las promociones, se realiza un análisis de sensibilidad sobre los topes no informados y se contrastan los descuentos con tickets de compra reales.
+\begin{itemize}
+	\item Severidad (S*): 5, porque los resultados siguen siendo interpretables al acotar la evaluación a los períodos con buena cobertura.
+	\item Ocurrencia (O*): 5, porque los huecos del histórico no pueden recuperarse, aunque dejan de afectar a los períodos nuevos.
+\end{itemize}
+
+Riesgo 3: Se construyen las líneas de base desde el sprint 4, se comparan varias familias de modelos y el optimizador se diseña para trabajar con el mejor pronóstico disponible, incluida la línea de base. El valor del sistema se mide por el ahorro total y no solo por la precisión del pronóstico.
+\begin{itemize}
+	\item Severidad (S*): 4, porque, aun sin mejora en el pronóstico, el sistema conserva su valor a través del optimizador y de la detección de ofertas engañosas.
+	\item Ocurrencia (O*): 5, porque la dificultad propia del problema no cambia.
+\end{itemize}
+
+Riesgo 4: Se priorizan las historias de prioridad alta, se utilizan las historias opcionales como margen de alcance, se revisa el avance al final de cada sprint y se informa mensualmente al director para reprogramar a tiempo.
+\begin{itemize}
+	\item Severidad (S*): 5, porque el recorte del alcance opcional protege el núcleo del proyecto y la fecha de la defensa.
+	\item Ocurrencia (O*): 4, porque el seguimiento por sprint permite detectar los desvíos en forma temprana.
+\end{itemize}
 
 \section{14. Sprint Review}
 \label{sec:sprint_review}
 
-La revisión de sprint (\emph{Sprint Review}) es una práctica fundamental en metodologías ágiles. Consiste en revisar y evaluar lo que se ha completado al finalizar un sprint. En esta instancia, se presentan los avances y se verifica si las funcionalidades cumplen con los criterios de aceptación establecidos. También se identifican entregables parciales y se consideran ajustes si es necesario.
+Para proyectar la revisión de los sprints se seleccionan cinco historias de usuario del núcleo, que cubren la ingesta de datos, el pronóstico, la detección de ofertas engañosas, la optimización y la evaluación integral del sistema. En el cuadro \ref{tab:review} se resume, para cada una, cómo se evaluará su cumplimiento al finalizar el sprint correspondiente. La revisión se realizará con el director al cierre de cada sprint, y sus conclusiones se incorporarán al informe mensual de avance.
 
-Aunque el proyecto aún se encuentre en etapa de planificación, esta sección permite proyectar cómo se evaluarán las funcionalidades más importantes del backlog. Esta mirada anticipada favorece la planificación enfocada en valor y permite reflexionar sobre posibles obstáculos.
-
-\textbf{Objetivo:} anticipar cómo se evaluará el avance del proyecto a medida que se desarrollen las funcionalidades, utilizando como base al menos cuatro historias de usuario del \emph{Product Backlog}.
-
-
-Seleccionar al menos 4 HU del Product Backlog. Para cada una, completar la siguiente tabla de revisión proyectada:
-
-\textbf{Formato sugerido:}
-\begin{table}[htpb]
-\renewcommand{\arraystretch}{1.5}
-\begin{tabular}{|>{\raggedright\arraybackslash}m{2.4cm}|
-                >{\raggedright\arraybackslash}m{2.3cm}|
-                >{\raggedright\arraybackslash}m{3cm}|
-                >{\raggedright\arraybackslash}m{3cm}|
-                >{\raggedright\arraybackslash}m{3cm}|}
+{\small
+\begin{longtable}{@{}|>{\raggedright\arraybackslash}p{1.1cm}|>{\raggedright\arraybackslash}p{3.1cm}|>{\raggedright\arraybackslash}p{2.9cm}|>{\raggedright\arraybackslash}p{3.5cm}|>{\raggedright\arraybackslash}p{2.9cm}|@{}}
+\caption{Revisión proyectada de los sprints.}
+\label{tab:review}\\
 \hline
-\rowcolor[HTML]{CCCCCC}
-\textbf{HU seleccionada} & \textbf{Tareas asociadas} & \textbf{Entregable esperado} & \textbf{¿Cómo sabrás que está cumplida?} & \textbf{Observaciones o riesgos} \\
+\rowcolor[HTML]{C0C0C0}
+HU & Tareas asociadas & Entregable esperado & ¿Cómo se sabrá que está cumplida? & Observaciones o riesgos \\ \hline
+\endfirsthead
 \hline
-                         & Tarea 1 &                             &                                           &                                     \\ \cline{2-2}
-\multirow{-2}{=}{HU1}    & Tarea 2 & \multirow{-2}{=}{Módulo funcional} & \multirow{-2}{=}{Cumple criterios de aceptación definidos} & \multirow{-2}{=}{Falta validar con el tutor} \\
-\hline
-                         & Tarea 1 &                             &                                           &                                     \\ \cline{2-2}
-\multirow{-2}{=}{HU3}    & Tarea 2 & \multirow{-2}{=}{Reporte generado} & \multirow{-2}{=}{Exportación disponible y clara} & \multirow{-2}{=}{Requiere datos reales} \\
-\hline
-                         & Tarea 1 &                             &                                           &                                     \\ \cline{2-2}
-\multirow{-2}{=}{HU5}    & Tarea 2 & \multirow{-2}{=}{Panel de gestión} & \multirow{-2}{=}{Roles diferenciados operativos} & \multirow{-2}{=}{Riesgo en integración} \\
-\hline
-                         & Tarea 1 &                             &                                           &                                     \\ \cline{2-2}
-\multirow{-2}{=}{HU7}    & Tarea 2 & \multirow{-2}{=}{Informe trimestral} & \multirow{-2}{=}{PDF con gráficos y evolución} & \multirow{-2}{=}{Puede faltar tiempo para ajustes} \\
-\hline
-\end{tabular}
-\end{table}
+\rowcolor[HTML]{C0C0C0}
+HU & Tareas asociadas & Entregable esperado & ¿Cómo se sabrá que está cumplida? & Observaciones o riesgos \\ \hline
+\endhead
+HU1 & Script de descarga y filtrado; tarea programada con reintentos; importación del histórico de preciazo & Proceso de ingesta diaria en funcionamiento y base histórica unificada desde el 19/08/2024 & Durante 30 días seguidos se registra al menos el 95\,\% de los días publicados y el histórico coincide con los archivos oficiales en las fechas superpuestas & La infraestructura en la nube todavía no está definida (riesgo 7) \\ \hline
+HU6 & Series y líneas de base; modelo de pronóstico por cuantiles; modelo de remarcación & Modelos entrenados y registrados en MLflow, con su reporte de evaluación & El MAPE es menor que el de la línea de base y la cobertura de los intervalos del 80\,\% está entre el 75\,\% y el 85\,\% & El hueco de 105 días previo a la prueba exige un período de arranque; puede no superarse la línea de base (riesgo 3) \\ \hline
+HU7 & Precio de referencia de 30 días; reglas de los tres tipos de oferta engañosa; etiquetado y evaluación de 100 ofertas & Módulo de alertas con explicación y reporte de precisión & La precisión sobre las ofertas etiquetadas es de al menos 0,80 y cada alerta incluye los precios y las fechas que la justifican & Los falsos positivos podrían afectar la reputación de una cadena \\ \hline
+HU8 & Formulación del modelo de programación entera mixta; implementación con el perfil de medios de pago; validación contra búsqueda exhaustiva & Optimizador que devuelve el plan de compra con su costo y ahorro estimado & Responde en menos de 10 s para 30 productos, respeta topes y días de las promociones y coincide con el óptimo exhaustivo en casos pequeños & Los topes no informados en el histórico de promociones requieren un supuesto conservador \\ \hline
+HU11 & Generador de listas simuladas; backtest con la estrategia ingenua; reporte del ahorro con intervalos de confianza & Informe reproducible de evaluación del ahorro & Se evalúan al menos 200 listas, se informa el ahorro medio con su intervalo de confianza del 95\,\% y un único script regenera los resultados & La cobertura desigual de las promociones condiciona la interpretación (riesgo 2) \\ \hline
+\end{longtable}
+}
 
 \section{15. Sprint Retrospective}    
 \label{sec:sprint_retro}
 
-La retrospectiva de sprint es una práctica orientada a la mejora continua. Al finalizar un sprint, el equipo (o el alumno, si trabaja de forma individual) reflexiona sobre lo que funcionó bien, lo que puede mejorarse y qué acciones concretas pueden implementarse para trabajar mejor en el futuro.
+En el cuadro \ref{tab:retro} se aplica la Estrella de la Retrospectiva a tres sprints técnicos y a dos sprints no técnicos, elegidos por representar etapas distintas del proyecto: la ingesta de datos, el modelado, la integración de la aplicación, la redacción de la memoria y la preparación de la defensa. Las acciones propuestas buscan anticipar las dificultades más probables de cada etapa y se revisarán en la retrospectiva real de cada sprint.
 
-Durante la cursada se propuso el uso de la \textbf{Estrella de la Retrospectiva}, que organiza la reflexión en torno a cinco ejes:
-
-\begin{itemize}
-\item  ¿Qué hacer más?
-\item  ¿Qué hacer menos?
-\item  ¿Qué mantener?
-\item  ¿Qué empezar a hacer?
-\item  ¿Qué dejar de hacer?
-\end{itemize}
-
-Aun en una etapa temprana, esta herramienta permite que el alumno planifique su forma de trabajar, identifique anticipadamente posibles dificultades y diseñe estrategias de organización personal.
-
-\textbf{Objetivo:} reflexionar sobre las condiciones iniciales del proyecto, identificando fortalezas, posibles dificultades y estrategias de mejora, incluso antes del inicio del desarrollo.
-
-
-Completar la siguiente tabla tomando como referencia los cinco ejes de la Estrella de la Retrospectiva (\emph{Starfish} o estrella de mar). Esta instancia te ayudará a definir buenas prácticas desde el inicio y prepararte para enfrentar el trabajo de forma organizada y flexible. Se deberá completar la tabla al menos para 3 sprints técnicos y 1 no técnico.
-
-\textbf{Formato sugerido:}
-
-\begin{table}[htpb]
-\renewcommand{\arraystretch}{1.4}
-\begin{tabular}{|>{\raggedright\arraybackslash}p{1.8cm}|
-                >{\raggedright\arraybackslash}p{2.3cm}|
-                >{\raggedright\arraybackslash}p{2.3cm}|
-                >{\raggedright\arraybackslash}p{2.3cm}|
-                >{\raggedright\arraybackslash}p{2.3cm}|
-                >{\raggedright\arraybackslash}p{2.3cm}|}
+{\small
+\begin{longtable}{@{}|>{\raggedright\arraybackslash}p{1.6cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}p{2.3cm}|>{\raggedright\arraybackslash}p{2.3cm}|@{}}
+\caption{Retrospectiva proyectada de los sprints.}
+\label{tab:retro}\\
 \hline
-\rowcolor[HTML]{CCCCCC} 
-\textbf{Sprint tipo y N°} & \textbf{¿Qué hacer más?} & \textbf{¿Qué hacer menos?} & \textbf{¿Qué mantener?} & \textbf{¿Qué empezar a hacer?} & \textbf{¿Qué dejar de hacer?} \\
+\rowcolor[HTML]{C0C0C0}
+Sprint & ¿Qué hacer más? & ¿Qué hacer menos? & ¿Qué mantener? & ¿Qué empezar a hacer? & ¿Qué dejar de hacer? \\ \hline
+\endfirsthead
 \hline
-Sprint técnico - 1 & Validaciones continuas con el alumno & Cambios sin versión registrada & Pruebas con datos simulados & Documentar cambios propuestos & Ajustes sin análisis de impacto \\
-\hline
-Sprint técnico - 2 & Verificar configuraciones en múltiples escenarios & Modificar parámetros sin guardar historial & Perfiles reutilizables & Usar logs para configuración & Repetir pruebas manuales innecesarias \\
-\hline
-Sprint técnico - 8 & Comparar correlaciones con casos previos & Cambiar parámetros sin justificar & Revisión cruzada de métricas & Anotar configuraciones usadas & Trabajar sin respaldo de datos \\
-\hline
-Sprint no técnico - 12 (por ej.: ``Defensa'') & Ensayos orales con feedback & Cambiar contenidos en la memoria & Material visual claro & Dividir la presentación por bloques & Agregar gráficos difíciles de explicar \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
+\rowcolor[HTML]{C0C0C0}
+Sprint & ¿Qué hacer más? & ¿Qué hacer menos? & ¿Qué mantener? & ¿Qué empezar a hacer? & ¿Qué dejar de hacer? \\ \hline
+\endhead
+Sprint técnico 1 (ingesta) & Verificar a diario el registro de descargas y el inventario de fechas & Procesar datos de todo el país cuando solo se usan las sucursales de Paraná & Conservar cada archivo original con su huella digital & Configurar alertas automáticas ante fallas de descarga & Hacer descargas manuales fuera del proceso programado \\ \hline
+Sprint técnico 5 (pronóstico) & Comparar cada modelo contra las líneas de base & Ajustar hiperparámetros sin dejar registro & Registrar todos los experimentos en MLflow & Analizar los errores por cadena y por categoría de producto & Consultar el período de prueba durante el desarrollo de los modelos \\ \hline
+Sprint técnico 9 (aplicación) & Probar los flujos de punta a punta con listas de compras reales & Agregar funcionalidades fuera del núcleo & Ejecutar las pruebas automatizadas en cada cambio & Documentar la API con ejemplos de uso & Postergar la redacción de la memoria para priorizar el desarrollo \\ \hline
+Sprint no técnico 11 (memoria) & Revisar cada capítulo con el director & Modificar el contenido técnico durante la etapa de cierre & Aplicar los criterios de redacción del Taller de Apoyo Gramatical & Usar una lista de verificación del formato de la plantilla & Incorporar resultados nuevos sin actualizar las figuras y los cuadros \\ \hline
+Sprint no técnico 12 (defensa) & Hacer ensayos cronometrados con devolución & Poner texto extenso en las diapositivas & Usar figuras claras del sistema y de los resultados & Preparar respuestas a las preguntas más probables & Modificar la presentación el día anterior a la defensa \\ \hline
+\end{longtable}
+}
 
 \end{document}
